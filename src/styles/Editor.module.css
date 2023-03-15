@@ -1,0 +1,13 @@
+
+.editor {
+  background-color: yellow;
+}
+
+.icon {
+  transform: scale(0.75);
+}
+
+.icon:hover {
+  background-color: #dddddd;
+
+}
