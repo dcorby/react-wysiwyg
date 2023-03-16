@@ -26,7 +26,7 @@ import EmojiSymbolsIcon from '@mui/icons-material/EmojiSymbols';
 import InsertEmoticonIcon from '@mui/icons-material/InsertEmoticon';
 
 import FullscreenIcon from '@mui/icons-material/Fullscreen';
-import PreviewIcon from '@mui/icons-material/Preview';
+import VisibilityIcon from '@mui/icons-material/Visibility';
 import SaveIcon from '@mui/icons-material/Save';
 import PrintIcon from '@mui/icons-material/Print';
 import InsertPhotoIcon from '@mui/icons-material/InsertPhoto';
@@ -160,7 +160,7 @@ class Editor extends React.Component {
  
       <div className='toolbar'>
         <FullscreenIcon className={styles.icon} />
-        <PreviewIcon className={styles.icon} />
+        <VisibilityIcon className={styles.icon} />
         <SaveIcon className={styles.icon} />
         <PrintIcon className={styles.icon} />
         <InsertPhotoIcon className={styles.icon} />
