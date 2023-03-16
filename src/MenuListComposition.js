@@ -14,11 +14,11 @@ export default function MenuListComposition({ label, items }) {
 
   const sx = {
     'Stack': { display: 'inline-block', margin: 0, padding: 0 },
-    'Button': { color: 'black', maxHeight: 24, fontSize: 10, textTransform: 'none', minWidth: 0 },
+    'Button': { color: 'black', maxHeight: 30, fontSize: 12, textTransform: 'none', minWidth: 0 },
     'Popper': { zIndex: 1 },
     'Paper': { borderRadius: 0 },
-    'MenuList': { py: 0.25, m: 0 },
-    'MenuItem': { fontSize: 10, py: 0.50, px: 0.75 }
+    'MenuList': { py: 0.30, m: 0 },
+    'MenuItem': { fontSize: 12, py: 0.50, px: 0.75 }
   };
 
   const [open, setOpen] = React.useState(false);

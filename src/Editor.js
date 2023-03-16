@@ -54,7 +54,8 @@ const SmallKeyboardArrowDownIcon = () => {
 class Editor extends React.Component {
 
   sx = {
-    'Select': { m: 0, maxHeight: 24, fontSize: 10, boxShadow: 'none', '.MuiOutlinedInput-notchedOutline': { border: 0 } }
+    'Select': { m: 0, fontSize: 12, boxShadow: 'none', '.MuiOutlinedInput-notchedOutline': { border: 0 } },
+    'MenuItem': { fontSize: 12, py: 0.50, px: 0.75 }
   }
 
   constructor(props) {
@@ -63,8 +64,8 @@ class Editor extends React.Component {
 
   render() {
     return (
-    <>
-      <div className='toolbar'>
+    <div id={styles.container}>
+      <div className={styles.toolbar}>
         <MenuListComposition label={'File'} items={menuItems['file']}></MenuListComposition>
         <MenuListComposition label={'Edit'} items={menuItems['edit']}></MenuListComposition>
         <MenuListComposition label={'View'} items={menuItems['view']}></MenuListComposition>
@@ -73,7 +74,7 @@ class Editor extends React.Component {
         <MenuListComposition label={'Tools'} items={menuItems['tools']}></MenuListComposition>
       </div>
 
-      <div className='toolbar'>
+      <div className={styles.toolbar}>
         <UndoIcon className={styles.icon} />
         <RedoIcon className={styles.icon} />
         <FormatBoldIcon className={styles.icon} />
@@ -81,7 +82,7 @@ class Editor extends React.Component {
         <FormatUnderlinedIcon className={styles.icon} />
 
         {/* Font families select */}
-        <FormControl sx={{ m: 0, maxHeight: 24 }} size="small">
+        <FormControl sx={{ mx: 0 }} size="small">
           <Select
             sx={ this.sx['Select'] }
             labelId="font-family-select-label"
@@ -92,33 +93,33 @@ class Editor extends React.Component {
             IconComponent={SmallKeyboardArrowDownIcon}
           >
             {menuItems["fontFamilies"].map((elem, idx) => (
-              <MenuItem key={idx} value={Object.entries(elem)[0][0]}>{Object.entries(elem)[0][1]}</MenuItem>
+              <MenuItem sx={ this.sx['MenuItem'] } key={idx} value={Object.entries(elem)[0][0]}>{Object.entries(elem)[0][1]}</MenuItem>
              ))
             }
           </Select>
         </FormControl>
 
         {/* Font sizes select */}
-        <FormControl sx={{ m: 0, maxHeight: 24 }} size="small">
+        <FormControl sx={{ mx: 0 }} size="small">
           <Select
             sx={ this.sx['Select'] }
             labelId="font-sizes-select-label"
             id="font-sizes-select"
-            defaultValue='12'
+            defaultValue='14'
             displayEmpty
             onChange={handleChange}
             IconComponent={SmallKeyboardArrowDownIcon}
           >
             {/* Set font sizes */}
             {menuItems["fontSizes"].map((elem, idx) => (
-              <MenuItem key={idx} value={Object.entries(elem)[0][0]}>{Object.entries(elem)[0][1]}</MenuItem>
+              <MenuItem sx={ this.sx['MenuItem'] } key={idx} value={Object.entries(elem)[0][0]}>{Object.entries(elem)[0][1]}</MenuItem>
              ))
             }
           </Select>
         </FormControl>
 
         {/* Elements select */}
-        <FormControl sx={{ m: 0, maxHeight: 24 }} size="small">
+        <FormControl sx={{ mx: 0 }} size="small">
           <Select
             sx={ this.sx['Select'] }
             labelId="elements-select-label"
@@ -130,7 +131,7 @@ class Editor extends React.Component {
           >
             {/* Set elements */}
             {menuItems["elements"].map((elem, idx) => (
-              <MenuItem key={idx} value={Object.entries(elem)[0][0]}>{Object.entries(elem)[0][1]}</MenuItem>
+              <MenuItem sx={ this.sx['MenuItem'] } key={idx} value={Object.entries(elem)[0][0]}>{Object.entries(elem)[0][1]}</MenuItem>
              ))
             }
           </Select>
@@ -140,7 +141,7 @@ class Editor extends React.Component {
       </div>
       {/* end: .toolbar */}
 
-      <div className='toolbar'>
+      <div className={styles.toolbar}>
          <FormatAlignLeftIcon className={styles.icon} />
          <FormatAlignCenterIcon className={styles.icon} />
          <FormatAlignRightIcon className={styles.icon} />
@@ -158,7 +159,7 @@ class Editor extends React.Component {
       </div>
       {/* end: .toolbar */}
  
-      <div className='toolbar'>
+      <div className={styles.toolbar}>
         <FullscreenIcon className={styles.icon} />
         <VisibilityIcon className={styles.icon} />
         <SaveIcon className={styles.icon} />
@@ -172,9 +173,8 @@ class Editor extends React.Component {
       {/* end: .toolbar */}
  
       <div className={styles.editor} contentEditable="true" suppressContentEditableWarning="true">
-        foo bar <h5>baz</h5>
       </div>
-    </>
+    </div>
     );
   }
 }
