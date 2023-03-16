@@ -64,7 +64,7 @@ export default function MenuListComposition({ label }) {
           aria-controls={open ? 'composition-menu' : undefined}
           aria-expanded={open ? 'true' : undefined}
           aria-haspopup="true"
-          disableRipple="true"
+          disableRipple={true}
           onClick={handleToggle}
         >
           {label}

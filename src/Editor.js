@@ -39,14 +39,21 @@ import FormControl from '@mui/material/FormControl';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
+import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import styles from './styles/Editor.module.css';
 
 import MenuListComposition from "./MenuListComposition";
 
+const SmallKeyboardArrowDownIcon = () => {
+  return (
+    <KeyboardArrowDownIcon style={{ width: '0.6em', height: '0.6em', color: '#666666' }} />
+  );
+};
+
 class Editor extends React.Component {
 
   sx = {
-    'Select': { m: 0, maxHeight: 24, fontSize: 12, boxShadow: 'none', '.MuiOutlinedInput-notchedOutline': { border: 0 } }
+    'Select': { m: 0, maxHeight: 24, fontSize: 10, boxShadow: 'none', '.MuiOutlinedInput-notchedOutline': { border: 0 } }
   }
 
   setFontFamilies() {
@@ -99,7 +106,6 @@ class Editor extends React.Component {
     this.setElements();
   }
 
-
   render() {
     return (
     <>
@@ -129,6 +135,7 @@ class Editor extends React.Component {
             defaultValue='Arial'
             displayEmpty
             onChange={handleChange}
+            IconComponent={SmallKeyboardArrowDownIcon}
           >
             {this.fontFamiliesRef.current.map((elem, idx) => (
               <MenuItem key={idx} value={elem}>{elem}</MenuItem>
@@ -146,6 +153,7 @@ class Editor extends React.Component {
             defaultValue='12pt'
             displayEmpty
             onChange={handleChange}
+            IconComponent={SmallKeyboardArrowDownIcon}
           >
             {/* Set font sizes */}
             {this.fontSizesRef.current.map((elem, idx) => (
@@ -164,6 +172,7 @@ class Editor extends React.Component {
             defaultValue='p'
             displayEmpty
             onChange={handleChange}
+            IconComponent={SmallKeyboardArrowDownIcon}
           >
             {/* Set elements */}
             {this.elementsRef.current.map((elem, idx) => (

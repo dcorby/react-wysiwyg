@@ -12,7 +12,11 @@
 }
 
 .icon {
-  transform: scale(0.75);
+  transform: scale(1.00);
+  max-width: 0.60em;
+  max-height: 0.60em;
+  padding: 0.20em 0.25em 0.20em 0.25em;
+  color: #333333;
 }
 
 .icon:hover {
