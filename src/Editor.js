@@ -39,13 +39,9 @@ import FormControl from '@mui/material/FormControl';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
-import styled from 'styled-components';
 import styles from './styles/Editor.module.css';
 
-const Foo = styled.div`
-  display: flex;
-  flex-direction: column;
-`;
+import MenuListComposition from "./MenuListComposition";
 
 class Editor extends React.Component {
 
@@ -107,6 +103,16 @@ class Editor extends React.Component {
   render() {
     return (
     <>
+
+      <div className='toolbar'>
+        <MenuListComposition label={'File'}></MenuListComposition>
+        <MenuListComposition label={'Edit'}></MenuListComposition>
+        <MenuListComposition label={'View'}></MenuListComposition>
+        <MenuListComposition label={'Insert'}></MenuListComposition>
+        <MenuListComposition label={'Format'}></MenuListComposition>
+        <MenuListComposition label={'Tools'}></MenuListComposition>
+      </div>
+
       <div className='toolbar'>
         <UndoIcon className={styles.icon} />
         <RedoIcon className={styles.icon} />
