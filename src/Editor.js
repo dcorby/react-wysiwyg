@@ -43,6 +43,7 @@ import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import styles from './styles/Editor.module.css';
 
 import MenuListComposition from "./MenuListComposition";
+import menuItems from "./menuItems.json"
 
 const SmallKeyboardArrowDownIcon = () => {
   return (
@@ -56,67 +57,20 @@ class Editor extends React.Component {
     'Select': { m: 0, maxHeight: 24, fontSize: 10, boxShadow: 'none', '.MuiOutlinedInput-notchedOutline': { border: 0 } }
   }
 
-  setFontFamilies() {
-    Array(
-      'Arial',
-      'Courier New',
-      'Helvetica',
-      'Tahoma',
-      'Terminal',
-      'Times New Roman'
-    ).forEach(elem => {
-      this.fontFamiliesRef.current.push(elem);
-    });
-  }
-
-  setFontSizes() {
-    Array(8, 10, 12, 14, 18, 24, 36)
-        .forEach(size => {
-      this.fontSizesRef.current.push(`${size}pt`);
-    });
-  }
-
-  setElements() {
-    Array({ 'p': 'Paragraph' },
-          { 'h1': 'Heading 1' },
-          { 'h2': 'Heading 2' },
-          { 'h3': 'Heading 3' },
-          { 'h4': 'Heading 4' },
-          { 'h5': 'Heading 5' },
-          { 'h6': 'Heading 6' },
-          { 'pre': 'Preformatted' })
-        .forEach(elem => {
-        this.elementsRef.current.push(elem);
-    });
-  }
-
   constructor(props) {
     super(props);
-    // Set font families
-    this.fontFamiliesRef = React.createRef();
-    this.fontFamiliesRef.current = [];
-    this.setFontFamilies();
-    // Set font sizes
-    this.fontSizesRef = React.createRef();
-    this.fontSizesRef.current = [];
-    this.setFontSizes();
-    // Set elements
-    this.elementsRef = React.createRef();
-    this.elementsRef.current = [];
-    this.setElements();
   }
 
   render() {
     return (
     <>
-
       <div className='toolbar'>
-        <MenuListComposition label={'File'}></MenuListComposition>
-        <MenuListComposition label={'Edit'}></MenuListComposition>
-        <MenuListComposition label={'View'}></MenuListComposition>
-        <MenuListComposition label={'Insert'}></MenuListComposition>
-        <MenuListComposition label={'Format'}></MenuListComposition>
-        <MenuListComposition label={'Tools'}></MenuListComposition>
+        <MenuListComposition label={'File'} items={menuItems['file']}></MenuListComposition>
+        <MenuListComposition label={'Edit'} items={menuItems['edit']}></MenuListComposition>
+        <MenuListComposition label={'View'} items={menuItems['view']}></MenuListComposition>
+        <MenuListComposition label={'Insert'} items={menuItems['insert']}></MenuListComposition>
+        <MenuListComposition label={'Format'} items={menuItems['format']}></MenuListComposition>
+        <MenuListComposition label={'Tools'} items={menuItems['tools']}></MenuListComposition>
       </div>
 
       <div className='toolbar'>
@@ -132,13 +86,13 @@ class Editor extends React.Component {
             sx={ this.sx['Select'] }
             labelId="font-family-select-label"
             id="font-family-select"
-            defaultValue='Arial'
+            defaultValue='arial'
             displayEmpty
             onChange={handleChange}
             IconComponent={SmallKeyboardArrowDownIcon}
           >
-            {this.fontFamiliesRef.current.map((elem, idx) => (
-              <MenuItem key={idx} value={elem}>{elem}</MenuItem>
+            {menuItems["fontFamilies"].map((elem, idx) => (
+              <MenuItem key={idx} value={Object.entries(elem)[0][0]}>{Object.entries(elem)[0][1]}</MenuItem>
              ))
             }
           </Select>
@@ -150,14 +104,14 @@ class Editor extends React.Component {
             sx={ this.sx['Select'] }
             labelId="font-sizes-select-label"
             id="font-sizes-select"
-            defaultValue='12pt'
+            defaultValue='12'
             displayEmpty
             onChange={handleChange}
             IconComponent={SmallKeyboardArrowDownIcon}
           >
             {/* Set font sizes */}
-            {this.fontSizesRef.current.map((elem, idx) => (
-              <MenuItem key={idx} value={elem}>{elem}</MenuItem>
+            {menuItems["fontSizes"].map((elem, idx) => (
+              <MenuItem key={idx} value={Object.entries(elem)[0][0]}>{Object.entries(elem)[0][1]}</MenuItem>
              ))
             }
           </Select>
@@ -175,7 +129,7 @@ class Editor extends React.Component {
             IconComponent={SmallKeyboardArrowDownIcon}
           >
             {/* Set elements */}
-            {this.elementsRef.current.map((elem, idx) => (
+            {menuItems["elements"].map((elem, idx) => (
               <MenuItem key={idx} value={Object.entries(elem)[0][0]}>{Object.entries(elem)[0][1]}</MenuItem>
              ))
             }
@@ -211,9 +165,9 @@ class Editor extends React.Component {
         <PrintIcon className={styles.icon} />
         <InsertPhotoIcon className={styles.icon} />
         <InsertLinkIcon className={styles.icon} />
-        <HtmlIcon className={styles.icon} />
         <CodeIcon className={styles.icon} />
         <DataArrayIcon className={styles.icon} />
+        <HtmlIcon className={styles.icon} />
       </div>
       {/* end: .toolbar */}
  

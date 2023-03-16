@@ -10,13 +10,15 @@ import Stack from '@mui/material/Stack';
 
 import styles from './styles/MenuListComposition.module.css';
 
-export default function MenuListComposition({ label }) {
+export default function MenuListComposition({ label, items }) {
 
   const sx = {
     'Stack': { display: 'inline-block', margin: 0, padding: 0 },
     'Button': { color: 'black', maxHeight: 24, fontSize: 10, textTransform: 'none', minWidth: 0 },
     'Popper': { zIndex: 1 },
-    'MenuItem': {}
+    'Paper': { borderRadius: 0 },
+    'MenuList': { py: 0.25, m: 0 },
+    'MenuItem': { fontSize: 10, py: 0.50, px: 0.75 }
   };
 
   const [open, setOpen] = React.useState(false);
@@ -86,17 +88,30 @@ export default function MenuListComposition({ label }) {
                   placement === 'bottom-start' ? 'left top' : 'left bottom',
               }}
             >
-              <Paper>
+              <Paper sx={ sx['Paper'] }>
                 <ClickAwayListener onClickAway={handleClose}>
                   <MenuList
+                    sx={ sx['MenuList'] }
                     autoFocusItem={open}
                     id="composition-menu"
                     aria-labelledby="composition-button"
                     onKeyDown={handleListKeyDown}
                   >
+                    {/*}
                     <MenuItem sx={ sx['MenuItem'] } onClick={handleClose}>Profile</MenuItem>
                     <MenuItem sx={ sx['MenuItem'] } onClick={handleClose}>My account</MenuItem>
                     <MenuItem sx={ sx['MenuItem'] } onClick={handleClose}>Logout</MenuItem>
+                    */}
+
+                    {items.map((elem, idx) => (
+                      <MenuItem 
+                        sx={ sx['MenuItem'] } 
+                        key={idx} 
+                        onClick={handleClose}
+                        value={Object.entries(elem)[0][0]}>{Object.entries(elem)[0][1]}
+                      </MenuItem>
+                    ))
+                    }                    
                   </MenuList>
                 </ClickAwayListener>
               </Paper>
