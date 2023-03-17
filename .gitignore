@@ -16,5 +16,6 @@ bower_components
 psd
 thumb
 sketch
+*.swp
 
 # End of https://www.toptal.com/developers/gitignore/api/react
