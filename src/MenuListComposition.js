@@ -1,4 +1,5 @@
-import * as React from 'react';
+import React from 'react';
+import * as Icons from './icons2';
 import Button from '@mui/material/Button';
 import ClickAwayListener from '@mui/material/ClickAwayListener';
 import Grow from '@mui/material/Grow';
@@ -108,7 +109,13 @@ export default function MenuListComposition({ label, items }) {
                         sx={ sx['MenuItem'] } 
                         key={idx} 
                         onClick={handleClose}
-                        value={Object.entries(elem)[0][0]}>{Object.entries(elem)[0][1]}
+                        value={Object.keys(elem)[0]}>
+                      {Object.values(elem)[0]['icon']
+                         && React.createElement(Icons.Map[Object.values(elem)[0]['icon']], {
+                           // ...
+                       })
+                      }
+                      {Object.values(elem)[0]['label']}
                       </MenuItem>
                     ))
                     }                    

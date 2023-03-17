@@ -8,9 +8,9 @@ import menuItems from "./menuItems.json";
 import Select from '@mui/material/Select';
 import styles from './styles/Editor.module.css';
 
-const SmallKeyboardArrowDownIcon = () => {
+const SmallKeyboardArrowDown = () => {
   return (
-    <Icons.KeyboardArrowDownIcon style={{ width: '0.6em', height: '0.6em', color: '#666666' }} />
+    <Icons.KeyboardArrowDown style={{ width: '0.6em', height: '0.6em', color: '#666666' }} />
   );
 };
 
@@ -38,11 +38,11 @@ class Editor extends React.Component {
       </div>
 
       <div className={styles.toolbar}>
-        <Icons.UndoIcon className={styles.icon} />
-        <Icons.RedoIcon className={styles.icon} />
-        <Icons.FormatBoldIcon className={styles.icon} />
-        <Icons.FormatItalicIcon className={styles.icon} />
-        <Icons.FormatUnderlinedIcon className={styles.icon} />
+        <Icons.Undo className={styles.icon} />
+        <Icons.Redo className={styles.icon} />
+        <Icons.FormatBold className={styles.icon} />
+        <Icons.FormatItalic className={styles.icon} />
+        <Icons.FormatUnderlined className={styles.icon} />
 
         {/* Font families select */}
         <FormControl sx={{ mx: 0 }} size="small">
@@ -53,10 +53,10 @@ class Editor extends React.Component {
             defaultValue='arial'
             displayEmpty
             onChange={handleChange}
-            IconComponent={SmallKeyboardArrowDownIcon}
+            IconComponent={SmallKeyboardArrowDown}
           >
             {menuItems["fontFamilies"].map((elem, idx) => (
-              <MenuItem sx={ this.sx['MenuItem'] } key={idx} value={Object.entries(elem)[0][0]}>{Object.entries(elem)[0][1]}</MenuItem>
+              <MenuItem sx={ this.sx['MenuItem'] } key={idx} value={Object.keys(elem)[0]}>{Object.values(elem)[0]['label']}</MenuItem>
              ))
             }
           </Select>
@@ -71,11 +71,11 @@ class Editor extends React.Component {
             defaultValue='14'
             displayEmpty
             onChange={handleChange}
-            IconComponent={SmallKeyboardArrowDownIcon}
+            IconComponent={SmallKeyboardArrowDown}
           >
             {/* Set font sizes */}
             {menuItems["fontSizes"].map((elem, idx) => (
-              <MenuItem sx={ this.sx['MenuItem'] } key={idx} value={Object.entries(elem)[0][0]}>{Object.entries(elem)[0][1]}</MenuItem>
+              <MenuItem sx={ this.sx['MenuItem'] } key={idx} value={Object.keys(elem)[0]}>{Object.values(elem)[0]['label']}</MenuItem>
              ))
             }
           </Select>
@@ -90,48 +90,50 @@ class Editor extends React.Component {
             defaultValue='p'
             displayEmpty
             onChange={handleChange}
-            IconComponent={SmallKeyboardArrowDownIcon}
+            IconComponent={SmallKeyboardArrowDown}
           >
             {/* Set elements */}
             {menuItems["elements"].map((elem, idx) => (
-              <MenuItem sx={ this.sx['MenuItem'] } key={idx} value={Object.entries(elem)[0][0]}>{Object.entries(elem)[0][1]}</MenuItem>
+              <MenuItem sx={ this.sx['MenuItem'] } key={idx} value={Object.keys(elem)[0]}>
+                {Object.values(elem)[0]['label']}
+              </MenuItem>
              ))
             }
           </Select>
         </FormControl>
 
-        <Icons.MoreHorizIcon className={styles.icon} />
+        <Icons.MoreHoriz className={styles.icon} />
       </div>
       {/* end: .toolbar */}
 
       <div className={styles.toolbar}>
-         <Icons.FormatAlignLeftIcon className={styles.icon} />
-         <Icons.FormatAlignCenterIcon className={styles.icon} />
-         <Icons.FormatAlignRightIcon className={styles.icon} />
-         <Icons.FormatAlignJustifyIcon className={styles.icon} />
-         <Icons.FormatIndentIncreaseIcon className={styles.icon} />
-         <Icons.FormatListNumberedIcon className={styles.icon} />
-         <Icons.FormatListBulletedIcon className={styles.icon} />
-         <Icons.FormatColorTextIcon className={styles.icon} />
-         <Icons.BorderColorIcon className={styles.icon} />
-         <Icons.AutoFixHighIcon className={styles.icon} />
-         <Icons.FormatClearIcon className={styles.icon} />
-         <Icons.InsertPageBreakIcon className={styles.icon} />
-         <Icons.EmojiSymbolsIcon className={styles.icon} />
-         <Icons.InsertEmoticonIcon className={styles.icon} />
+         <Icons.FormatAlignLeft className={styles.icon} />
+         <Icons.FormatAlignCenter className={styles.icon} />
+         <Icons.FormatAlignRight className={styles.icon} />
+         <Icons.FormatAlignJustify className={styles.icon} />
+         <Icons.FormatIndentIncrease className={styles.icon} />
+         <Icons.FormatListNumbered className={styles.icon} />
+         <Icons.FormatListBulleted className={styles.icon} />
+         <Icons.FormatColorText className={styles.icon} />
+         <Icons.BorderColor className={styles.icon} />
+         <Icons.AutoFixHigh className={styles.icon} />
+         <Icons.FormatClear className={styles.icon} />
+         <Icons.InsertPageBreak className={styles.icon} />
+         <Icons.EmojiSymbols className={styles.icon} />
+         <Icons.InsertEmoticon className={styles.icon} />
       </div>
       {/* end: .toolbar */}
  
       <div className={styles.toolbar}>
-        <Icons.FullscreenIcon className={styles.icon} />
-        <Icons.VisibilityIcon className={styles.icon} />
-        <Icons.SaveIcon className={styles.icon} />
-        <Icons.PrintIcon className={styles.icon} />
-        <Icons.InsertPhotoIcon className={styles.icon} />
-        <Icons.InsertLinkIcon className={styles.icon} />
-        <Icons.CodeIcon className={styles.icon} />
-        <Icons.DataArrayIcon className={styles.icon} />
-        <Icons.HtmlIcon className={styles.icon} />
+        <Icons.Fullscreen className={styles.icon} />
+        <Icons.Visibility className={styles.icon} />
+        <Icons.Save className={styles.icon} />
+        <Icons.Print className={styles.icon} />
+        <Icons.InsertPhoto className={styles.icon} />
+        <Icons.InsertLink className={styles.icon} />
+        <Icons.Code className={styles.icon} />
+        <Icons.DataArray className={styles.icon} />
+        <Icons.Html className={styles.icon} />
       </div>
       {/* end: .toolbar */}
  
