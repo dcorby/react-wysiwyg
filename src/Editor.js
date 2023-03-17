@@ -1,53 +1,16 @@
 import React, { useRef } from "react";
-
-/* Icons */
-import UndoIcon from '@mui/icons-material/Undo';
-import RedoIcon from '@mui/icons-material/Redo';
-import FormatBoldIcon from '@mui/icons-material/FormatBold';
-import FormatItalicIcon from '@mui/icons-material/FormatItalic';
-import FormatUnderlinedIcon from '@mui/icons-material/FormatUnderlined';
-import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
-
-import FormatAlignLeftIcon from '@mui/icons-material/FormatAlignLeft';
-import FormatAlignCenterIcon from '@mui/icons-material/FormatAlignCenter';
-import FormatAlignRightIcon from '@mui/icons-material/FormatAlignRight';
-import FormatAlignJustifyIcon from '@mui/icons-material/FormatAlignJustify';
-import FormatIndentIncreaseIcon from '@mui/icons-material/FormatIndentIncrease';
-
-import FormatListNumberedIcon from '@mui/icons-material/FormatListNumbered';
-import FormatListBulletedIcon from '@mui/icons-material/FormatListBulleted';
-
-import FormatColorTextIcon from '@mui/icons-material/FormatColorText';
-import BorderColorIcon from '@mui/icons-material/BorderColor';
-import AutoFixHighIcon from '@mui/icons-material/AutoFixHigh';
-import FormatClearIcon from '@mui/icons-material/FormatClear';
-import InsertPageBreakIcon from '@mui/icons-material/InsertPageBreak';
-import EmojiSymbolsIcon from '@mui/icons-material/EmojiSymbols';
-import InsertEmoticonIcon from '@mui/icons-material/InsertEmoticon';
-
-import FullscreenIcon from '@mui/icons-material/Fullscreen';
-import VisibilityIcon from '@mui/icons-material/Visibility';
-import SaveIcon from '@mui/icons-material/Save';
-import PrintIcon from '@mui/icons-material/Print';
-import InsertPhotoIcon from '@mui/icons-material/InsertPhoto';
-import InsertLinkIcon from '@mui/icons-material/InsertLink';
-import HtmlIcon from '@mui/icons-material/Html';
-import CodeIcon from '@mui/icons-material/Code';
-import DataArrayIcon from '@mui/icons-material/DataArray';
-
+import * as Icons from './icons';
 import FormControl from '@mui/material/FormControl';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
-import Select from '@mui/material/Select';
-import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
-import styles from './styles/Editor.module.css';
-
 import MenuListComposition from "./MenuListComposition";
-import menuItems from "./menuItems.json"
+import menuItems from "./menuItems.json";
+import Select from '@mui/material/Select';
+import styles from './styles/Editor.module.css';
 
 const SmallKeyboardArrowDownIcon = () => {
   return (
-    <KeyboardArrowDownIcon style={{ width: '0.6em', height: '0.6em', color: '#666666' }} />
+    <Icons.KeyboardArrowDownIcon style={{ width: '0.6em', height: '0.6em', color: '#666666' }} />
   );
 };
 
@@ -75,11 +38,11 @@ class Editor extends React.Component {
       </div>
 
       <div className={styles.toolbar}>
-        <UndoIcon className={styles.icon} />
-        <RedoIcon className={styles.icon} />
-        <FormatBoldIcon className={styles.icon} />
-        <FormatItalicIcon className={styles.icon} />
-        <FormatUnderlinedIcon className={styles.icon} />
+        <Icons.UndoIcon className={styles.icon} />
+        <Icons.RedoIcon className={styles.icon} />
+        <Icons.FormatBoldIcon className={styles.icon} />
+        <Icons.FormatItalicIcon className={styles.icon} />
+        <Icons.FormatUnderlinedIcon className={styles.icon} />
 
         {/* Font families select */}
         <FormControl sx={{ mx: 0 }} size="small">
@@ -137,38 +100,38 @@ class Editor extends React.Component {
           </Select>
         </FormControl>
 
-        <MoreHorizIcon className={styles.icon} />
+        <Icons.MoreHorizIcon className={styles.icon} />
       </div>
       {/* end: .toolbar */}
 
       <div className={styles.toolbar}>
-         <FormatAlignLeftIcon className={styles.icon} />
-         <FormatAlignCenterIcon className={styles.icon} />
-         <FormatAlignRightIcon className={styles.icon} />
-         <FormatAlignJustifyIcon className={styles.icon} />
-         <FormatIndentIncreaseIcon className={styles.icon} />
-         <FormatListNumberedIcon className={styles.icon} />
-         <FormatListBulletedIcon className={styles.icon} />
-         <FormatColorTextIcon className={styles.icon} />
-         <BorderColorIcon className={styles.icon} />
-         <AutoFixHighIcon className={styles.icon} />
-         <FormatClearIcon className={styles.icon} />
-         <InsertPageBreakIcon className={styles.icon} />
-         <EmojiSymbolsIcon className={styles.icon} />
-         <InsertEmoticonIcon className={styles.icon} />
+         <Icons.FormatAlignLeftIcon className={styles.icon} />
+         <Icons.FormatAlignCenterIcon className={styles.icon} />
+         <Icons.FormatAlignRightIcon className={styles.icon} />
+         <Icons.FormatAlignJustifyIcon className={styles.icon} />
+         <Icons.FormatIndentIncreaseIcon className={styles.icon} />
+         <Icons.FormatListNumberedIcon className={styles.icon} />
+         <Icons.FormatListBulletedIcon className={styles.icon} />
+         <Icons.FormatColorTextIcon className={styles.icon} />
+         <Icons.BorderColorIcon className={styles.icon} />
+         <Icons.AutoFixHighIcon className={styles.icon} />
+         <Icons.FormatClearIcon className={styles.icon} />
+         <Icons.InsertPageBreakIcon className={styles.icon} />
+         <Icons.EmojiSymbolsIcon className={styles.icon} />
+         <Icons.InsertEmoticonIcon className={styles.icon} />
       </div>
       {/* end: .toolbar */}
  
       <div className={styles.toolbar}>
-        <FullscreenIcon className={styles.icon} />
-        <VisibilityIcon className={styles.icon} />
-        <SaveIcon className={styles.icon} />
-        <PrintIcon className={styles.icon} />
-        <InsertPhotoIcon className={styles.icon} />
-        <InsertLinkIcon className={styles.icon} />
-        <CodeIcon className={styles.icon} />
-        <DataArrayIcon className={styles.icon} />
-        <HtmlIcon className={styles.icon} />
+        <Icons.FullscreenIcon className={styles.icon} />
+        <Icons.VisibilityIcon className={styles.icon} />
+        <Icons.SaveIcon className={styles.icon} />
+        <Icons.PrintIcon className={styles.icon} />
+        <Icons.InsertPhotoIcon className={styles.icon} />
+        <Icons.InsertLinkIcon className={styles.icon} />
+        <Icons.CodeIcon className={styles.icon} />
+        <Icons.DataArrayIcon className={styles.icon} />
+        <Icons.HtmlIcon className={styles.icon} />
       </div>
       {/* end: .toolbar */}
  
