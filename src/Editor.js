@@ -23,18 +23,26 @@ class Editor extends React.Component {
 
   constructor(props) {
     super(props);
+    this.state = {
+        activeMenuList: null
+    }
+    this.setActiveMenuList = this.setActiveMenuList.bind(this);
+  }
+
+  setActiveMenuList(menuList) {
+    this.setState({ activeMenuList: menuList });
   }
 
   render() {
     return (
     <div id={styles.container}>
       <div className={styles.toolbar}>
-        <MenuListComposition label={'File'} items={menuItems['file']}></MenuListComposition>
-        <MenuListComposition label={'Edit'} items={menuItems['edit']}></MenuListComposition>
-        <MenuListComposition label={'View'} items={menuItems['view']}></MenuListComposition>
-        <MenuListComposition label={'Insert'} items={menuItems['insert']}></MenuListComposition>
-        <MenuListComposition label={'Format'} items={menuItems['format']}></MenuListComposition>
-        <MenuListComposition label={'Tools'} items={menuItems['tools']}></MenuListComposition>
+        <MenuListComposition label={'File'} items={menuItems['file']} active={this.state.activeMenuList} setActive={this.setActiveMenuList}></MenuListComposition>
+        <MenuListComposition label={'Edit'} items={menuItems['edit']} active={this.state.activeMenuList} setActive={this.setActiveMenuList}></MenuListComposition>
+        <MenuListComposition label={'View'} items={menuItems['view']} active={this.state.activeMenuList} setActive={this.setActiveMenuList}></MenuListComposition>
+        <MenuListComposition label={'Insert'} items={menuItems['insert']} active={this.state.activeMenuList} setActive={this.setActiveMenuList}></MenuListComposition>
+        <MenuListComposition label={'Format'} items={menuItems['format']} active={this.state.activeMenuList} setActive={this.setActiveMenuList}></MenuListComposition>
+        <MenuListComposition label={'Tools'} items={menuItems['tools']} active={this.state.activeMenuList} setActive={this.setActiveMenuList}></MenuListComposition>
       </div>
 
       <div className={styles.toolbar}>

@@ -25,16 +25,26 @@ export default function MenuListComposition(props) {
   const [open, setOpen] = React.useState(false);
   const anchorRef = React.useRef(null);
 
-  const handleToggle = () => {
+  const handleToggle = (event) => {
     setOpen((prevOpen) => !prevOpen);
+    var button = (!open) ? event.target : null;
+    props.setActive(button);
+  };
+
+  const handleHover = (event) => {
+    if (props.active) {
+      props.active.click();
+      props.setActive(event.target);
+      setOpen(true);
+    }
   };
 
   const handleClose = (event) => {
     if (anchorRef.current && anchorRef.current.contains(event.target)) {
       return;
     }
-
     setOpen(false);
+    props.setActive(null);
   };
 
   function handleListKeyDown(event) {
@@ -69,6 +79,7 @@ export default function MenuListComposition(props) {
           aria-haspopup="true"
           disableRipple={true}
           onClick={handleToggle}
+          onMouseEnter={handleHover}
         >
           {props.label}
         </Button>
