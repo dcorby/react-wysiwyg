@@ -1,35 +1,35 @@
 { "file": [
     { "new-document": { "label": "New Document", "icon": "Article" } },
-    { "save-as": { "label": "Save As" } }
+    { "save-as": { "label": "Save As", "icon": "Save" } }
   ],
   "edit": [
-     { "cut": { "label": "Cut" } },
-     { "copy": { "label": "Copy" } },
-     { "paste": { "label": "Paste" } },
-     { "replace": { "label": "Replace" } }
+     { "cut": { "label": "Cut", "icon": "ContentCut" } },
+     { "copy": { "label": "Copy", "icon": "ContentCopy" } },
+     { "paste": { "label": "Paste", "icon": "ContentPaste" } },
+     { "replace": { "label": "Find and replace", "icon": "Search" } }
   ],
   "view": [
-     { "fullscreen": { "label": "Fullscreen" } },
-     { "preview": { "label": "Preview" } },
-     { "html": { "label": "HTML" } }
+     { "fullscreen": { "label": "Fullscreen", "icon": "Fullscreen" } },
+     { "preview": { "label": "Preview", "icon": "Visibility" } },
+     { "html": { "label": "HTML", "icon": "Html" } }
   ],
   "insert": [
-     { "image": { "label": "Image" } },
-     { "link": { "label": "Link" } },
-     { "special-character": { "label": "Special character" } },
-     { "emoticon-character": { "label": "Emoticon" } }
+     { "image": { "label": "Image", "icon": "InsertPhoto" } },
+     { "link": { "label": "Link", "icon": "InsertLink" } },
+     { "special-character": { "label": "Special character", "icon": "EmojiSymbols" } },
+     { "emoticon-character": { "label": "Emoticon", "icon": "InsertEmoticon" } }
   ],
   "format": [
-     { "bold": { "label": "Bold" } },
-     { "italic": { "label": "Italic" } },
-     { "underline": { "label": "Underline" } },
-     { "strikethrough": { "label": "Strikethrough" } },
-     { "text-color": { "label": "Text color" } },
-     { "background-color": { "label": "Background color" } },
-     { "clear-formatting": { "label": "Clear formatting" } }
+     { "bold": { "label": "Bold", "icon": "FormatBold" } },
+     { "italic": { "label": "Italic", "icon": "FormatItalic" } },
+     { "underline": { "label": "Underline", "icon": "FormatUnderlined" } },
+     { "strikethrough": { "label": "Strikethrough", "icon": "StrikethroughS" } },
+     { "text-color": { "label": "Text color", "icon": "FormatColorText" } },
+     { "background-color": { "label": "Background color", "icon": "BorderColor" } },
+     { "clear-formatting": { "label": "Clear formatting", "icon": "FormatClear" } }
   ],
   "tools": [
-     { "word-count": { "label": "Word count" } }
+     { "word-count": { "label": "Word count", "icon": "Pin" } }
   ],
   "fontFamilies": [
      { "arial": { "label": "Arial" } },

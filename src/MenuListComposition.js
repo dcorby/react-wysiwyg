@@ -11,7 +11,7 @@ import Stack from '@mui/material/Stack';
 
 import styles from './styles/MenuListComposition.module.css';
 
-export default function MenuListComposition({ label, items }) {
+export default function MenuListComposition(props) {
 
   const sx = {
     'Stack': { display: 'inline-block', margin: 0, padding: 0 },
@@ -70,7 +70,7 @@ export default function MenuListComposition({ label, items }) {
           disableRipple={true}
           onClick={handleToggle}
         >
-          {label}
+          {props.label}
         </Button>
         <Popper
           sx={ sx['Popper'] }
@@ -104,7 +104,7 @@ export default function MenuListComposition({ label, items }) {
                     <MenuItem sx={ sx['MenuItem'] } onClick={handleClose}>Logout</MenuItem>
                     */}
 
-                    {items.map((elem, idx) => (
+                    {props.items.map((elem, idx) => (
                       <MenuItem 
                         sx={ sx['MenuItem'] } 
                         key={idx} 

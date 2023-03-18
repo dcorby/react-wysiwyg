@@ -29,6 +29,12 @@ import Code from '@mui/icons-material/Code';
 import DataArray from '@mui/icons-material/DataArray';
 import KeyboardArrowDown from '@mui/icons-material/KeyboardArrowDown';
 import Article from '@mui/icons-material/Article';
+import ContentCut from '@mui/icons-material/ContentCut';
+import ContentCopy from '@mui/icons-material/ContentCopy';
+import ContentPaste from '@mui/icons-material/ContentPaste';
+import Search from '@mui/icons-material/Search';
+import StrikethroughS from '@mui/icons-material/StrikethroughS';
+import Pin from '@mui/icons-material/Pin';
 import Square from '@mui/icons-material/Square';
 
 const Map = {
@@ -63,8 +69,14 @@ const Map = {
   'DataArray': DataArray,
   'KeyboardArrowDown': KeyboardArrowDown,
   'Article': Article,
+  'ContentCut': ContentCut,
+  'ContentCopy': ContentCopy,
+  'ContentPaste': ContentPaste,
+  'Search': Search,
+  'StrikethroughS': StrikethroughS,
+  'Pin': Pin,
   'Square': Square
 };
 
-export { Undo, Redo, FormatBold, FormatItalic, FormatUnderlined, MoreHoriz, FormatAlignLeft, FormatAlignCenter, FormatAlignRight, FormatAlignJustify, FormatIndentIncrease, FormatListNumbered, FormatListBulleted, FormatColorText, BorderColor, AutoFixHigh, FormatClear, InsertPageBreak, EmojiSymbols, InsertEmoticon, Fullscreen, Visibility, Save, Print, InsertPhoto, InsertLink, Html, Code, DataArray, KeyboardArrowDown, Article, Square, Map }
+export { Undo, Redo, FormatBold, FormatItalic, FormatUnderlined, MoreHoriz, FormatAlignLeft, FormatAlignCenter, FormatAlignRight, FormatAlignJustify, FormatIndentIncrease, FormatListNumbered, FormatListBulleted, FormatColorText, BorderColor, AutoFixHigh, FormatClear, InsertPageBreak, EmojiSymbols, InsertEmoticon, Fullscreen, Visibility, Save, Print, InsertPhoto, InsertLink, Html, Code, DataArray, KeyboardArrowDown, Article, ContentCut, ContentCopy, ContentPaste, Search, StrikethroughS, Pin, Square, Map }
 
