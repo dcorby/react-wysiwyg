@@ -1,31 +1,70 @@
-export { default as Undo } from '@mui/icons-material/Undo';
-export { default as Redo } from '@mui/icons-material/Redo';
-export { default as FormatBold } from '@mui/icons-material/FormatBold';
-export { default as FormatItalic } from '@mui/icons-material/FormatItalic';
-export { default as FormatUnderlined } from '@mui/icons-material/FormatUnderlined';
-export { default as MoreHoriz } from '@mui/icons-material/MoreHoriz';
-export { default as FormatAlignLeft } from '@mui/icons-material/FormatAlignLeft';
-export { default as FormatAlignCenter } from '@mui/icons-material/FormatAlignCenter';
-export { default as FormatAlignRight } from '@mui/icons-material/FormatAlignRight';
-export { default as FormatAlignJustify } from '@mui/icons-material/FormatAlignJustify';
-export { default as FormatIndentIncrease } from '@mui/icons-material/FormatIndentIncrease';
-export { default as FormatListNumbered } from '@mui/icons-material/FormatListNumbered';
-export { default as FormatListBulleted } from '@mui/icons-material/FormatListBulleted';
-export { default as FormatColorText } from '@mui/icons-material/FormatColorText';
-export { default as BorderColor } from '@mui/icons-material/BorderColor';
-export { default as AutoFixHigh } from '@mui/icons-material/AutoFixHigh';
-export { default as FormatClear } from '@mui/icons-material/FormatClear';
-export { default as InsertPageBreak } from '@mui/icons-material/InsertPageBreak';
-export { default as EmojiSymbols } from '@mui/icons-material/EmojiSymbols';
-export { default as InsertEmoticon } from '@mui/icons-material/InsertEmoticon';
-export { default as Fullscreen } from '@mui/icons-material/Fullscreen';
-export { default as Visibility } from '@mui/icons-material/Visibility';
-export { default as Save } from '@mui/icons-material/Save';
-export { default as Print } from '@mui/icons-material/Print';
-export { default as InsertPhoto } from '@mui/icons-material/InsertPhoto';
-export { default as InsertLink } from '@mui/icons-material/InsertLink';
-export { default as Html } from '@mui/icons-material/Html';
-export { default as Code } from '@mui/icons-material/Code';
-export { default as DataArray } from '@mui/icons-material/DataArray';
-export { default as KeyboardArrowDown } from '@mui/icons-material/KeyboardArrowDown';
-export { default as Article } from '@mui/icons-material/Article';
+import Undo from '@mui/icons-material/Undo';
+import Redo from '@mui/icons-material/Redo';
+import FormatBold from '@mui/icons-material/FormatBold';
+import FormatItalic from '@mui/icons-material/FormatItalic';
+import FormatUnderlined from '@mui/icons-material/FormatUnderlined';
+import MoreHoriz from '@mui/icons-material/MoreHoriz';
+import FormatAlignLeft from '@mui/icons-material/FormatAlignLeft';
+import FormatAlignCenter from '@mui/icons-material/FormatAlignCenter';
+import FormatAlignRight from '@mui/icons-material/FormatAlignRight';
+import FormatAlignJustify from '@mui/icons-material/FormatAlignJustify';
+import FormatIndentIncrease from '@mui/icons-material/FormatIndentIncrease';
+import FormatListNumbered from '@mui/icons-material/FormatListNumbered';
+import FormatListBulleted from '@mui/icons-material/FormatListBulleted';
+import FormatColorText from '@mui/icons-material/FormatColorText';
+import BorderColor from '@mui/icons-material/BorderColor';
+import AutoFixHigh from '@mui/icons-material/AutoFixHigh';
+import FormatClear from '@mui/icons-material/FormatClear';
+import InsertPageBreak from '@mui/icons-material/InsertPageBreak';
+import EmojiSymbols from '@mui/icons-material/EmojiSymbols';
+import InsertEmoticon from '@mui/icons-material/InsertEmoticon';
+import Fullscreen from '@mui/icons-material/Fullscreen';
+import Visibility from '@mui/icons-material/Visibility';
+import Save from '@mui/icons-material/Save';
+import Print from '@mui/icons-material/Print';
+import InsertPhoto from '@mui/icons-material/InsertPhoto';
+import InsertLink from '@mui/icons-material/InsertLink';
+import Html from '@mui/icons-material/Html';
+import Code from '@mui/icons-material/Code';
+import DataArray from '@mui/icons-material/DataArray';
+import KeyboardArrowDown from '@mui/icons-material/KeyboardArrowDown';
+import Article from '@mui/icons-material/Article';
+import Square from '@mui/icons-material/Square';
+
+const Map = {
+  'Undo': Undo,
+  'Redo': Redo,
+  'FormatBold': FormatBold,
+  'FormatItalic': FormatItalic,
+  'FormatUnderlined': FormatUnderlined,
+  'MoreHoriz': MoreHoriz,
+  'FormatAlignLeft': FormatAlignLeft,
+  'FormatAlignCenter': FormatAlignCenter,
+  'FormatAlignRight': FormatAlignRight,
+  'FormatAlignJustify': FormatAlignJustify,
+  'FormatIndentIncrease': FormatIndentIncrease,
+  'FormatListNumbered': FormatListNumbered,
+  'FormatListBulleted': FormatListBulleted,
+  'FormatColorText': FormatColorText,
+  'BorderColor': BorderColor,
+  'AutoFixHigh': AutoFixHigh,
+  'FormatClear': FormatClear,
+  'InsertPageBreak': InsertPageBreak,
+  'EmojiSymbols': EmojiSymbols,
+  'InsertEmoticon': InsertEmoticon,
+  'Fullscreen': Fullscreen,
+  'Visibility': Visibility,
+  'Save': Save,
+  'Print': Print,
+  'InsertPhoto': InsertPhoto,
+  'InsertLink': InsertLink,
+  'Html': Html,
+  'Code': Code,
+  'DataArray': DataArray,
+  'KeyboardArrowDown': KeyboardArrowDown,
+  'Article': Article,
+  'Square': Square
+};
+
+export { Undo, Redo, FormatBold, FormatItalic, FormatUnderlined, MoreHoriz, FormatAlignLeft, FormatAlignCenter, FormatAlignRight, FormatAlignJustify, FormatIndentIncrease, FormatListNumbered, FormatListBulleted, FormatColorText, BorderColor, AutoFixHigh, FormatClear, InsertPageBreak, EmojiSymbols, InsertEmoticon, Fullscreen, Visibility, Save, Print, InsertPhoto, InsertLink, Html, Code, DataArray, KeyboardArrowDown, Article, Square, Map }
+
