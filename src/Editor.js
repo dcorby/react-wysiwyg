@@ -7,6 +7,7 @@ import MenuListComposition from "./MenuListComposition";
 import menuItems from "./menuItems.json";
 import Select from '@mui/material/Select';
 import styles from './styles/Editor.module.css';
+import { getListItemTextUtilityClass } from "@mui/material";
 
 const SmallKeyboardArrowDown = () => {
   return (
@@ -16,21 +17,47 @@ const SmallKeyboardArrowDown = () => {
 
 class Editor extends React.Component {
 
-  sx = {
-    'Select': { m: 0, fontSize: 12, boxShadow: 'none', '.MuiOutlinedInput-notchedOutline': { border: 0 } },
-    'MenuItem': { fontSize: 12, py: 0.50, px: 0.75 }
-  }
-
   constructor(props) {
     super(props);
     this.state = {
-        activeMenuList: null
+        activeMenuList: null,
+        modes: {}
     }
     this.setActiveMenuList = this.setActiveMenuList.bind(this);
+    this.toggleMode = this.toggleMode.bind(this);
+  }
+
+  sx = {
+    'Select': { m: 0, fontSize: 12, boxShadow: 'none', '.MuiOutlinedInput-notchedOutline': { border: 0 } },
+    'MenuItem': { fontSize: 12, py: 0.50, px: 0.75 },
+    'Icon': (mode) => {
+      if (Object.hasOwn(this.state.modes, mode)) {
+        return { 'backgroundColor': '#cccccc' };
+      }
+      return null;
+    },
+    'Extend': function(base, extendWith) {
+      return { ...this[base], ...extendWith };
+    }
   }
 
   setActiveMenuList(menuList) {
     this.setState({ activeMenuList: menuList });
+  }
+
+  toggleMode(event) {
+    // Use event.currentTarget rather than target, otherwise Path elements are going to get passed.
+    const mode = event.currentTarget.dataset.mode;
+    const modes = this.state.modes;
+
+    if (Object.hasOwn(modes, mode)) {
+      delete modes[mode];
+    } else {
+      modes[mode] = null;
+    }
+    
+    this.setState({ modes: modes });
+    console.log(this.state.modes);
   }
 
   render() {
@@ -48,14 +75,14 @@ class Editor extends React.Component {
       <div className={styles.toolbar}>
         <Icons.Undo className={styles.icon} />
         <Icons.Redo className={styles.icon} />
-        <Icons.FormatBold className={styles.icon} />
-        <Icons.FormatItalic className={styles.icon} />
-        <Icons.FormatUnderlined className={styles.icon} />
+        <Icons.FormatBold className={styles.icon} sx={this.sx['Icon']('bold')} data-mode="bold" onClick={this.toggleMode} />
+        <Icons.FormatItalic className={styles.icon} sx={this.sx['Icon']('italic')} data-mode="italic" onClick={this.toggleMode} />
+        <Icons.FormatUnderlined className={styles.icon} sx={this.sx['Icon']('underline')} data-mode="underline" onClick={this.toggleMode} />
 
         {/* Font families select */}
         <FormControl sx={{ mx: 0 }} size="small">
           <Select
-            sx={ this.sx['Select'] }
+            sx={ this.sx['Extend']('Select', { 'width': '120px' }) }
             labelId="font-family-select-label"
             id="font-family-select"
             defaultValue='arial'
