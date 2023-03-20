@@ -3,7 +3,6 @@ import Redo from '@mui/icons-material/Redo';
 import FormatBold from '@mui/icons-material/FormatBold';
 import FormatItalic from '@mui/icons-material/FormatItalic';
 import FormatUnderlined from '@mui/icons-material/FormatUnderlined';
-import MoreHoriz from '@mui/icons-material/MoreHoriz';
 import FormatAlignLeft from '@mui/icons-material/FormatAlignLeft';
 import FormatAlignCenter from '@mui/icons-material/FormatAlignCenter';
 import FormatAlignRight from '@mui/icons-material/FormatAlignRight';
@@ -35,6 +34,7 @@ import ContentPaste from '@mui/icons-material/ContentPaste';
 import Search from '@mui/icons-material/Search';
 import StrikethroughS from '@mui/icons-material/StrikethroughS';
 import Pin from '@mui/icons-material/Pin';
+import Close from '@mui/icons-material/Close';
 import Square from '@mui/icons-material/Square';
 
 const Map = {
@@ -43,7 +43,6 @@ const Map = {
   'FormatBold': FormatBold,
   'FormatItalic': FormatItalic,
   'FormatUnderlined': FormatUnderlined,
-  'MoreHoriz': MoreHoriz,
   'FormatAlignLeft': FormatAlignLeft,
   'FormatAlignCenter': FormatAlignCenter,
   'FormatAlignRight': FormatAlignRight,
@@ -75,8 +74,9 @@ const Map = {
   'Search': Search,
   'StrikethroughS': StrikethroughS,
   'Pin': Pin,
+  'Close': Close,
   'Square': Square
 };
 
-export { Undo, Redo, FormatBold, FormatItalic, FormatUnderlined, MoreHoriz, FormatAlignLeft, FormatAlignCenter, FormatAlignRight, FormatAlignJustify, FormatIndentIncrease, FormatListNumbered, FormatListBulleted, FormatColorText, BorderColor, AutoFixHigh, FormatClear, InsertPageBreak, EmojiSymbols, InsertEmoticon, Fullscreen, Visibility, Save, Print, InsertPhoto, InsertLink, Html, Code, DataArray, KeyboardArrowDown, Article, ContentCut, ContentCopy, ContentPaste, Search, StrikethroughS, Pin, Square, Map }
+export { Undo, Redo, FormatBold, FormatItalic, FormatUnderlined, FormatAlignLeft, FormatAlignCenter, FormatAlignRight, FormatAlignJustify, FormatIndentIncrease, FormatListNumbered, FormatListBulleted, FormatColorText, BorderColor, AutoFixHigh, FormatClear, InsertPageBreak, EmojiSymbols, InsertEmoticon, Fullscreen, Visibility, Save, Print, InsertPhoto, InsertLink, Html, Code, DataArray, KeyboardArrowDown, Article, ContentCut, ContentCopy, ContentPaste, Search, StrikethroughS, Pin, Close, Square, Map }
 

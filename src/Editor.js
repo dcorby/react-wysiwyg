@@ -1,13 +1,12 @@
-import React, { useRef } from "react";
+import React, { useRef, useEffect } from "react";
 import * as Icons from './icons';
 import FormControl from '@mui/material/FormControl';
-import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import MenuListComposition from "./MenuListComposition";
 import menuItems from "./menuItems.json";
 import Select from '@mui/material/Select';
-import styles from './styles/Editor.module.css';
-import { getListItemTextUtilityClass } from "@mui/material";
+import './styles/Editor.css';
+//import styles from './styles/Editor.module.css';
 
 const SmallKeyboardArrowDown = () => {
   return (
@@ -20,12 +19,16 @@ class Editor extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+        initLoaded: false,
         activeMenuList: null,
-        modes: {}
+        modes: {},
     }
     this.setActiveMenuList = this.setActiveMenuList.bind(this);
     this.toggleMode = this.toggleMode.bind(this);
   }
+
+  controlsRef = React.createRef(null);
+  editorRef = React.createRef(null);
 
   sx = {
     'Select': { m: 0, fontSize: 12, boxShadow: 'none', '.MuiOutlinedInput-notchedOutline': { border: 0 } },
@@ -57,123 +60,147 @@ class Editor extends React.Component {
     }
     
     this.setState({ modes: modes });
-    console.log(this.state.modes);
+  }
+
+  componentDidMount() {
+    this.editorRef.current.style.minHeight = this.controlsRef.current.clientHeight + 'px';
+    if (!this.state.initLoaded.current) {
+      // Apparently this timeout is necessary, huh
+      setTimeout(() => {
+        this.editorRef.current.focus();
+      });
+    }
+    this.setState({ initLoaded: true });
   }
 
   render() {
     return (
-    <div id={styles.container}>
-      <div className={styles.toolbar}>
-        <MenuListComposition label={'File'} items={menuItems['file']} active={this.state.activeMenuList} setActive={this.setActiveMenuList}></MenuListComposition>
-        <MenuListComposition label={'Edit'} items={menuItems['edit']} active={this.state.activeMenuList} setActive={this.setActiveMenuList}></MenuListComposition>
-        <MenuListComposition label={'View'} items={menuItems['view']} active={this.state.activeMenuList} setActive={this.setActiveMenuList}></MenuListComposition>
-        <MenuListComposition label={'Insert'} items={menuItems['insert']} active={this.state.activeMenuList} setActive={this.setActiveMenuList}></MenuListComposition>
-        <MenuListComposition label={'Format'} items={menuItems['format']} active={this.state.activeMenuList} setActive={this.setActiveMenuList}></MenuListComposition>
-        <MenuListComposition label={'Tools'} items={menuItems['tools']} active={this.state.activeMenuList} setActive={this.setActiveMenuList}></MenuListComposition>
+    <div id="container">
+      <div id="controls" ref={this.controlsRef}>
+        <div className='toolbar'>
+          <MenuListComposition label={'File'} items={menuItems['file']} active={this.state.activeMenuList} setActive={this.setActiveMenuList}></MenuListComposition>
+          <MenuListComposition label={'Edit'} items={menuItems['edit']} active={this.state.activeMenuList} setActive={this.setActiveMenuList}></MenuListComposition>
+          <MenuListComposition label={'View'} items={menuItems['view']} active={this.state.activeMenuList} setActive={this.setActiveMenuList}></MenuListComposition>
+          <MenuListComposition label={'Insert'} items={menuItems['insert']} active={this.state.activeMenuList} setActive={this.setActiveMenuList}></MenuListComposition>
+          <MenuListComposition label={'Format'} items={menuItems['format']} active={this.state.activeMenuList} setActive={this.setActiveMenuList}></MenuListComposition>
+          <MenuListComposition label={'Tools'} items={menuItems['tools']} active={this.state.activeMenuList} setActive={this.setActiveMenuList}></MenuListComposition>
+        </div>
+
+        <div className='toolbar'>
+          <Icons.Undo className='icon' />
+          <Icons.Redo className='icon' />
+          <Icons.FormatBold className='icon' sx={this.sx['Icon']('bold')} data-mode="bold" onClick={this.toggleMode} />
+          <Icons.FormatItalic className='icon' sx={this.sx['Icon']('italic')} data-mode="italic" onClick={this.toggleMode} />
+          <Icons.FormatUnderlined className='icon' sx={this.sx['Icon']('underline')} data-mode="underline" onClick={this.toggleMode} />
+
+          {/* Font families select */}
+          <FormControl sx={{ mx: 0 }} size="small">
+            <Select
+              sx={ this.sx['Extend']('Select', { 'width': '120px' }) }
+              labelId="font-family-select-label"
+              id="font-family-select"
+              defaultValue='arial'
+              displayEmpty
+              onChange={handleChange}
+              IconComponent={SmallKeyboardArrowDown}
+            >
+              {menuItems["fontFamilies"].map((elem, idx) => (
+                <MenuItem sx={ this.sx['MenuItem'] } key={idx} value={Object.keys(elem)[0]}>{Object.values(elem)[0]['label']}</MenuItem>
+              ))
+              }
+            </Select>
+          </FormControl>
+
+          {/* Font sizes select */}
+          <FormControl sx={{ mx: 0 }} size="small">
+            <Select
+              sx={ this.sx['Select'] }
+              labelId="font-sizes-select-label"
+              id="font-sizes-select"
+              defaultValue='14'
+              displayEmpty
+              onChange={handleChange}
+              IconComponent={SmallKeyboardArrowDown}
+            >
+              {/* Set font sizes */}
+              {menuItems["fontSizes"].map((elem, idx) => (
+                <MenuItem sx={ this.sx['MenuItem'] } key={idx} value={Object.keys(elem)[0]}>{Object.values(elem)[0]['label']}</MenuItem>
+              ))
+              }
+            </Select>
+          </FormControl>
+
+          {/* Elements select */}
+          <FormControl sx={{ mx: 0 }} size="small">
+            <Select
+              sx={ this.sx['Select'] }
+              labelId="elements-select-label"
+              id="elements-select"
+              defaultValue='p'
+              displayEmpty
+              onChange={handleChange}
+              IconComponent={SmallKeyboardArrowDown}
+            >
+              {/* Set elements */}
+              {menuItems["elements"].map((elem, idx) => (
+                <MenuItem sx={ this.sx['MenuItem'] } key={idx} value={Object.keys(elem)[0]}>
+                  {Object.values(elem)[0]['label']}
+                </MenuItem>
+              ))
+              }
+            </Select>
+          </FormControl>
+
+        </div>
+        {/* end: .toolbar */}
+
+        <div className='toolbar'>
+          <Icons.FormatAlignLeft className='icon' />
+          <Icons.FormatAlignCenter className='icon' />
+          <Icons.FormatAlignRight className='icon' />
+          <Icons.FormatAlignJustify className='icon' />
+          <Icons.FormatIndentIncrease className='icon' />
+          <Icons.FormatListNumbered className='icon' />
+          <Icons.FormatListBulleted className='icon' />
+          <Icons.FormatColorText className='icon' />
+          <Icons.BorderColor className='icon' />
+          <Icons.AutoFixHigh className='icon' />
+          <Icons.FormatClear className='icon' />
+          <Icons.InsertPageBreak className='icon' />
+          <Icons.EmojiSymbols className='icon' />
+          <Icons.InsertEmoticon className='icon' />
+        </div>
+        {/* end: .toolbar */}
+  
+        <div className='toolbar'>
+          <Icons.Fullscreen className='icon' />
+          <Icons.Visibility className='icon' />
+          <Icons.Save className='icon' />
+          <Icons.Print className='icon' />
+          <Icons.InsertPhoto className='icon' />
+          <Icons.InsertLink className='icon' />
+          <Icons.Code className='icon' />
+          <Icons.DataArray className='icon' />
+          <Icons.Html className='icon' />
+        </div>
+        {/* end: .toolbar */}
       </div>
-
-      <div className={styles.toolbar}>
-        <Icons.Undo className={styles.icon} />
-        <Icons.Redo className={styles.icon} />
-        <Icons.FormatBold className={styles.icon} sx={this.sx['Icon']('bold')} data-mode="bold" onClick={this.toggleMode} />
-        <Icons.FormatItalic className={styles.icon} sx={this.sx['Icon']('italic')} data-mode="italic" onClick={this.toggleMode} />
-        <Icons.FormatUnderlined className={styles.icon} sx={this.sx['Icon']('underline')} data-mode="underline" onClick={this.toggleMode} />
-
-        {/* Font families select */}
-        <FormControl sx={{ mx: 0 }} size="small">
-          <Select
-            sx={ this.sx['Extend']('Select', { 'width': '120px' }) }
-            labelId="font-family-select-label"
-            id="font-family-select"
-            defaultValue='arial'
-            displayEmpty
-            onChange={handleChange}
-            IconComponent={SmallKeyboardArrowDown}
-          >
-            {menuItems["fontFamilies"].map((elem, idx) => (
-              <MenuItem sx={ this.sx['MenuItem'] } key={idx} value={Object.keys(elem)[0]}>{Object.values(elem)[0]['label']}</MenuItem>
-             ))
-            }
-          </Select>
-        </FormControl>
-
-        {/* Font sizes select */}
-        <FormControl sx={{ mx: 0 }} size="small">
-          <Select
-            sx={ this.sx['Select'] }
-            labelId="font-sizes-select-label"
-            id="font-sizes-select"
-            defaultValue='14'
-            displayEmpty
-            onChange={handleChange}
-            IconComponent={SmallKeyboardArrowDown}
-          >
-            {/* Set font sizes */}
-            {menuItems["fontSizes"].map((elem, idx) => (
-              <MenuItem sx={ this.sx['MenuItem'] } key={idx} value={Object.keys(elem)[0]}>{Object.values(elem)[0]['label']}</MenuItem>
-             ))
-            }
-          </Select>
-        </FormControl>
-
-        {/* Elements select */}
-        <FormControl sx={{ mx: 0 }} size="small">
-          <Select
-            sx={ this.sx['Select'] }
-            labelId="elements-select-label"
-            id="elements-select"
-            defaultValue='p'
-            displayEmpty
-            onChange={handleChange}
-            IconComponent={SmallKeyboardArrowDown}
-          >
-            {/* Set elements */}
-            {menuItems["elements"].map((elem, idx) => (
-              <MenuItem sx={ this.sx['MenuItem'] } key={idx} value={Object.keys(elem)[0]}>
-                {Object.values(elem)[0]['label']}
-              </MenuItem>
-             ))
-            }
-          </Select>
-        </FormControl>
-
-        <Icons.MoreHoriz className={styles.icon} />
-      </div>
-      {/* end: .toolbar */}
-
-      <div className={styles.toolbar}>
-         <Icons.FormatAlignLeft className={styles.icon} />
-         <Icons.FormatAlignCenter className={styles.icon} />
-         <Icons.FormatAlignRight className={styles.icon} />
-         <Icons.FormatAlignJustify className={styles.icon} />
-         <Icons.FormatIndentIncrease className={styles.icon} />
-         <Icons.FormatListNumbered className={styles.icon} />
-         <Icons.FormatListBulleted className={styles.icon} />
-         <Icons.FormatColorText className={styles.icon} />
-         <Icons.BorderColor className={styles.icon} />
-         <Icons.AutoFixHigh className={styles.icon} />
-         <Icons.FormatClear className={styles.icon} />
-         <Icons.InsertPageBreak className={styles.icon} />
-         <Icons.EmojiSymbols className={styles.icon} />
-         <Icons.InsertEmoticon className={styles.icon} />
-      </div>
-      {/* end: .toolbar */}
  
-      <div className={styles.toolbar}>
-        <Icons.Fullscreen className={styles.icon} />
-        <Icons.Visibility className={styles.icon} />
-        <Icons.Save className={styles.icon} />
-        <Icons.Print className={styles.icon} />
-        <Icons.InsertPhoto className={styles.icon} />
-        <Icons.InsertLink className={styles.icon} />
-        <Icons.Code className={styles.icon} />
-        <Icons.DataArray className={styles.icon} />
-        <Icons.Html className={styles.icon} />
+      <div id='editor'
+           ref={this.editorRef} 
+           contentEditable='true'
+           suppressContentEditableWarning='true'>
       </div>
-      {/* end: .toolbar */}
- 
-      <div className={styles.editor} contentEditable="true" suppressContentEditableWarning="true">
+
+      <div id='preview'>
+        <div id='bar'>
+          <div id='title'>HTML</div>
+          <Icons.Close className='icon' style={{ 'flexGrow': 0, 'cursor': 'pointer' }} />
+        </div>
+        <div id='html'>
+        </div>
       </div>
+      
     </div>
     );
   }
