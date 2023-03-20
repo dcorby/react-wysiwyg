@@ -1,0 +1,32 @@
+#preview {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  font-family: monospace;
+  background-color: #ffffff;
+  display: flex;
+  flex-direction: column;
+}
+  
+#preview #bar {
+  display: flex;
+  flex-direction: row;
+  flex-grow: 0;
+}
+  
+#preview #bar #title {
+  flex-grow: 1;
+  font-size: 18px;
+  font-family: apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen-Sans,Ubuntu,Cantarell,"Helvetica Neue",sans-serif;
+  vertical-align: middle;
+  height: 0.80em;
+  padding: 0.25em 0em 0.25em 0.50em;
+}
+  
+#preview #html {
+  border: 1px solid #cccccc;
+  flex-grow: 1;
+  margin: 0.50em;
+}

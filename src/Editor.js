@@ -1,12 +1,14 @@
-import React, { useRef, useEffect } from "react";
+import React, { useRef, useEffect } from 'react';
 import * as Icons from './icons';
 import FormControl from '@mui/material/FormControl';
 import MenuItem from '@mui/material/MenuItem';
-import MenuListComposition from "./MenuListComposition";
-import menuItems from "./menuItems.json";
+import MenuListComposition from './MenuListComposition';
+import Editable from './Editable';
+import Preview from './Preview';
+import menuItems from './menuItems.json';
 import Select from '@mui/material/Select';
+import './styles/Global.css';
 import './styles/Editor.css';
-//import styles from './styles/Editor.module.css';
 
 const SmallKeyboardArrowDown = () => {
   return (
@@ -28,7 +30,7 @@ class Editor extends React.Component {
   }
 
   controlsRef = React.createRef(null);
-  editorRef = React.createRef(null);
+  editableRef = React.createRef(null);
 
   sx = {
     'Select': { m: 0, fontSize: 12, boxShadow: 'none', '.MuiOutlinedInput-notchedOutline': { border: 0 } },
@@ -63,11 +65,11 @@ class Editor extends React.Component {
   }
 
   componentDidMount() {
-    this.editorRef.current.style.minHeight = this.controlsRef.current.clientHeight + 'px';
+    this.editableRef.current.style.minHeight = this.controlsRef.current.clientHeight + 'px';
     if (!this.state.initLoaded.current) {
       // Apparently this timeout is necessary, huh
       setTimeout(() => {
-        this.editorRef.current.focus();
+        this.editableRef.current.focus();
       });
     }
     this.setState({ initLoaded: true });
@@ -89,9 +91,9 @@ class Editor extends React.Component {
         <div className='toolbar'>
           <Icons.Undo className='icon' />
           <Icons.Redo className='icon' />
-          <Icons.FormatBold className='icon' sx={this.sx['Icon']('bold')} data-mode="bold" onClick={this.toggleMode} />
-          <Icons.FormatItalic className='icon' sx={this.sx['Icon']('italic')} data-mode="italic" onClick={this.toggleMode} />
-          <Icons.FormatUnderlined className='icon' sx={this.sx['Icon']('underline')} data-mode="underline" onClick={this.toggleMode} />
+          <Icons.FormatBold className='icon' sx={this.sx['Icon']('bold')} data-mode='bold' onClick={this.toggleMode} />
+          <Icons.FormatItalic className='icon' sx={this.sx['Icon']('italic')} data-mode='italic' onClick={this.toggleMode} />
+          <Icons.FormatUnderlined className='icon' sx={this.sx['Icon']('underline')} data-mode='underline' onClick={this.toggleMode} />
 
           {/* Font families select */}
           <FormControl sx={{ mx: 0 }} size="small">
@@ -181,26 +183,18 @@ class Editor extends React.Component {
           <Icons.InsertLink className='icon' />
           <Icons.Code className='icon' />
           <Icons.DataArray className='icon' />
-          <Icons.Html className='icon' />
+          <Icons.Html className='icon' data-mode='html' onClick={this.toggleMode} />
         </div>
         {/* end: .toolbar */}
       </div>
- 
-      <div id='editor'
-           ref={this.editorRef} 
-           contentEditable='true'
-           suppressContentEditableWarning='true'>
-      </div>
 
-      <div id='preview'>
-        <div id='bar'>
-          <div id='title'>HTML</div>
-          <Icons.Close className='icon' style={{ 'flexGrow': 0, 'cursor': 'pointer' }} />
-        </div>
-        <div id='html'>
-        </div>
-      </div>
-      
+      <Editable
+         ref={this.editableRef}
+         contentEditable='true'
+         suppressContentEditableWarning='true'/>
+
+      <Preview hidden={!Object.hasOwn(this.state.modes, 'html')} 
+               toggleMode={this.toggleMode} />
     </div>
     );
   }
