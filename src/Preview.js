@@ -19,7 +19,8 @@ class Preview extends React.Component {
                 data-mode='html'
                 onClick={(event) => { this.props.toggleMode(event); }} />
         </div>
-        <div id='html'>
+        <div id='html' style={{ whiteSpace: 'pre-wrap' }}>
+          {this.props.html}
         </div>
       </div>
     );

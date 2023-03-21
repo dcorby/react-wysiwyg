@@ -29,7 +29,8 @@ class Editor extends React.Component {
     this.setActiveMenuList = this.setActiveMenuList.bind(this);
     this.toggleMode = this.toggleMode.bind(this);
     this.handleEdit = this.handleEdit.bind(this);
-    this.content = '';
+    this.text = '';
+    this.html = '';
   }
 
   controlsRef = React.createRef(null);
@@ -68,12 +69,39 @@ class Editor extends React.Component {
   }
 
   handleEdit(event) {
-    if (this.content !== this.editableRef.current.innerText) {
+    const innerText = this.editableRef.current.innerText;
+    if (this.text !== innerText) {
       const diff = new Diff();
-      const contentDiff = diff.main(this.content, this.editableRef.current.innerText);
-      console.log(contentDiff);
+      const textDiff = diff.main(this.text, innerText);
+      
+      // TODO: Need a differ module. We don't want this block here.
+      var html = [];
+      var line = '';
+      textDiff.forEach((token, i) => {
+        if (token[0] !== -1) {
+          if (token[1].includes('\n')) {
+            var parts = token[1].split('\n');
+            parts.forEach((part, j) => {
+              if (j === parts.length - 1) {
+                line += part;
+              } else {
+                line += part;
+                html.push(line);
+                line = '';
+              }
+            });
+          } else {
+            line += token[1];
+          }
+          if (i === textDiff.length - 1) {
+            html.push(line);
+          }
+        }
+      });
+      this.html = html.map((line) => `<p>${line}</p>`).join('\n');
 
-      this.content = this.editableRef.current.innerText;
+      // Set text to be new innerText
+      this.text = innerText;
     }
   }
 
@@ -212,6 +240,7 @@ class Editor extends React.Component {
          handleEdit={this.handleEdit} />
 
       <Preview hidden={!Object.hasOwn(this.state.modes, 'html')} 
+               html={this.html}
                toggleMode={this.toggleMode} />
     </div>
     );
