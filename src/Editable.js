@@ -2,7 +2,10 @@ import React from 'react';
 
 class Editable extends React.Component {
   constructor(props) {
-    super(props);        
+    super(props);
+    this.state = {
+      range: null,
+    };
   }
 
   render() {
@@ -10,7 +13,8 @@ class Editable extends React.Component {
       <div id='editor'
          ref={this.props.innerRef}
          contentEditable='true'
-         suppressContentEditableWarning='true'>
+         suppressContentEditableWarning='true'
+         onInput={(event) => { this.props.handleEdit(event); }}>
       </div>
     );
   }

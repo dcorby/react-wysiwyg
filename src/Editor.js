@@ -7,6 +7,7 @@ import Editable from './Editable';
 import Preview from './Preview';
 import menuItems from './menuItems.json';
 import Select from '@mui/material/Select';
+import Diff from 'text-diff'; // https://www.npmjs.com/package/text-diff
 import './styles/Global.css';
 import './styles/Editor.css';
 
@@ -27,6 +28,8 @@ class Editor extends React.Component {
     }
     this.setActiveMenuList = this.setActiveMenuList.bind(this);
     this.toggleMode = this.toggleMode.bind(this);
+    this.handleEdit = this.handleEdit.bind(this);
+    this.content = '';
   }
 
   controlsRef = React.createRef(null);
@@ -51,7 +54,7 @@ class Editor extends React.Component {
   }
 
   toggleMode(event) {
-    // Use event.currentTarget rather than target, otherwise Path elements are going to get passed.
+    // Use event.currentTarget rather than target, otherwise Path elements are going to get passed
     const mode = event.currentTarget.dataset.mode;
     const modes = this.state.modes;
 
@@ -63,6 +66,20 @@ class Editor extends React.Component {
     
     this.setState({ modes: modes });
   }
+
+  handleEdit(event) {
+    if (this.content !== this.editableRef.current.innerText) {
+      const diff = new Diff();
+      const contentDiff = diff.main(this.content, this.editableRef.current.innerText);
+      console.log(contentDiff);
+
+      this.content = this.editableRef.current.innerText;
+    }
+  }
+
+  handleKeyDown(event) { }
+  handleChange() { }
+  componentDidUpdate(prevProps, prevState) { }
 
   componentDidMount() {
     this.editableRef.current.style.minHeight = this.controlsRef.current.clientHeight + 'px';
@@ -103,7 +120,7 @@ class Editor extends React.Component {
               id="font-family-select"
               defaultValue='arial'
               displayEmpty
-              onChange={handleChange}
+              onChange={this.handleChange}
               IconComponent={SmallKeyboardArrowDown}
             >
               {menuItems["fontFamilies"].map((elem, idx) => (
@@ -121,7 +138,7 @@ class Editor extends React.Component {
               id="font-sizes-select"
               defaultValue='14'
               displayEmpty
-              onChange={handleChange}
+              onChange={this.handleChange}
               IconComponent={SmallKeyboardArrowDown}
             >
               {/* Set font sizes */}
@@ -140,7 +157,7 @@ class Editor extends React.Component {
               id="elements-select"
               defaultValue='p'
               displayEmpty
-              onChange={handleChange}
+              onChange={this.handleChange}
               IconComponent={SmallKeyboardArrowDown}
             >
               {/* Set elements */}
@@ -191,17 +208,14 @@ class Editor extends React.Component {
       <Editable
          ref={this.editableRef}
          contentEditable='true'
-         suppressContentEditableWarning='true'/>
+         suppressContentEditableWarning='true'
+         handleEdit={this.handleEdit} />
 
       <Preview hidden={!Object.hasOwn(this.state.modes, 'html')} 
                toggleMode={this.toggleMode} />
     </div>
     );
   }
-}
-
-function handleChange() {
-  console.log('handleChange() called...');
 }
 
 export default Editor;

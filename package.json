@@ -18,7 +18,8 @@
     "react": "^18.2.0",
     "react-css-modules": "^4.7.11",
     "react-dom": "^18.2.0",
-    "styled-components": "^5.3.9"
+    "styled-components": "^5.3.9",
+    "text-diff": "^1.0.1"
   },
   "devDependencies": {
     "@babel/core": "^7.21.3",
