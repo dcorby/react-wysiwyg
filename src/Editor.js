@@ -26,6 +26,7 @@ class Editor extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+        update: false,
         initLoaded: false,
         activeMenuList: null,
         modes: {},
@@ -65,10 +66,10 @@ class Editor extends React.Component {
 
     if (Object.hasOwn(modes, mode)) {
       delete modes[mode];
-      this.handleMode('add', mode);
+      this.handleMode('del', mode);
     } else {
       modes[mode] = null;
-      this.handleMode('del', mode);
+      this.handleMode('add', mode);
     }
     
     this.setState({ modes: modes });
@@ -79,8 +80,11 @@ class Editor extends React.Component {
     const selection = window.getSelection();
     if (!selection.isCollapsed) {
       const obj = new Modes({ text: parser.text, selection: selection, action: action });
-      parser.update(obj[mode]());
+      const innerText = obj[mode]();
+      this.editableRef.current.innerHTML = innerText
+      parser.update(innerText);
       this.html = parser.parse();
+      this.setState({ update: !this.state.update });
     }
   }
 
