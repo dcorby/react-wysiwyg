@@ -76,20 +76,20 @@ class Editor extends React.Component {
   }
 
   handleMode(action, mode) {
-    const innerText = this.editableRef.current.innerText;
     const selection = window.getSelection();
     if (!selection.isCollapsed) {
+      parser.update(this.editableRef.current.innerHTML);
       const obj = new Modes({ text: parser.text, selection: selection, action: action });
-      const innerText = obj[mode]();
-      this.editableRef.current.innerHTML = innerText
-      parser.update(innerText);
+      const text = obj[mode]();
+      this.editableRef.current.innerHTML = text;
+      parser.update(text);
       this.html = parser.parse();
       this.setState({ update: !this.state.update });
     }
   }
 
   handleEdit(event) {
-    const innerText = this.editableRef.current.innerText;
+    const innerText = this.editableRef.current.innerHTML;
     if (innerText !== parser.text) {
       parser.update(innerText);
       this.html = parser.parse();
@@ -228,7 +228,8 @@ class Editor extends React.Component {
          ref={this.editableRef}
          contentEditable='true'
          suppressContentEditableWarning='true'
-         handleEdit={this.handleEdit} />
+         handleEdit={this.handleEdit}
+         onSelect={this.handleSelect} />
 
       <Preview hidden={!Object.hasOwn(this.state.modes, 'html')} 
                html={this.html}

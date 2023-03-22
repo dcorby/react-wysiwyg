@@ -5,56 +5,44 @@ class Modes {
     this.action = action;
   }
 
+  /* The selection API is really weird. For now, just fingerprint the selection with a unique token and 
+     get the offset with indexOf()
+  */
   bold() {
-    var isBold = false;
-    var prev = [];
-    var newText = '';
-    var append = '';
-    for (const [i, char] of this.text.substring(0, this.selection.anchorOffset).split('').entries()) {
-      prev.push(char);
-      if (prev.slice(-3).join('') === '<b>') {
-        isBold = true;
-      }
-      if (prev.slice(-4).join('') === '</b>') {
-        isBold = false;
-      }
-      // goto next until we get to selection
-      if (i < this.selection.focusOffset) {
-        continue;
-      }
-      // process the selection now
-      // add
-      if (this.action === 'add' && i === this.selection.focusOffset && !isBold) {
-        newText += '<b>';
-        prev = '<b>'.split('');
-        append = '</b>';
-      }
-      // del
-      if (this.action === 'del' && i === this.selection.focusOffset && isBold) {
-        newText += '</b>';
-        prev = '</b>'.split('');
-        append = '<b>';
-      }
-      // remove tags in middle
-      if (i > this.selection.anchorOffset) {
-        if (prev.slice(-3).join('') === '<b>') {
-          newText = newText.substring(0, newText.length - 3);          
-          append = '<b>';
-        }
-        if (prev.slice(-4).join('') === '</b>') {
-          newText = newText.substring(0, newText.length - 4);
-          append = '</b>';
-        }
-      }
-      newText += char;
+    const token = '!@#$%^&*(';
+    let anchorNode = this.selection.anchorNode;
+
+    let node = anchorNode;
+    const before = [];
+    while (node.previousSibling != null) {
+      node = node.previousSibling;
+      before.unshift(node.textContent);
     }
-    newText += append;
 
-    this.text = this.text.substring(0, this.selection.focusOffset)
-                  + newText
-                  + this.text.substring(this.selection.anchorOffset, this.text.length);
+    const selected = 
+    (anchorNode.textContent.substring(0, Math.min(this.selection.anchorOffset, this.selection.focusOffset))
+    + token
+    + anchorNode.textContent.substring(
+        Math.min(this.selection.anchorOffset, this.selection.focusOffset), 
+        Math.max(this.selection.anchorOffset, this.selection.focusOffset) + anchorNode.textContent.length
+      )
+    );
 
-    console.log(this.text);
+    node = anchorNode;
+    const after = [];
+    while (node.nextSibling != null) {
+      node = node.nextSibling;
+      after.push(node.textContent);
+    }
+
+    const newText = before.join('') + selected + after.join('');
+    var start = newText.indexOf(token);
+    var end = newText.indexOf(token) + Math.abs(this.selection.anchorOffset - this.selection.focusOffset);
+
+    console.log("selected:");
+    console.log(this.text.substring(start, end));
+    console.log(`start=${start}, end=${end}`);
+
     return this.text;
   }
 }
