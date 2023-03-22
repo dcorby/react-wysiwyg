@@ -7,8 +7,9 @@ import Editable from './Editable';
 import Preview from './Preview';
 import menuItems from './menuItems.json';
 import Select from '@mui/material/Select';
-import Diff from 'text-diff';
+//import Diff from 'text-diff';
 import Parser from './Parser';
+import Modes from './Modes';
 import './styles/Global.css';
 import './styles/Editor.css';
 
@@ -17,6 +18,8 @@ const SmallKeyboardArrowDown = () => {
     <Icons.KeyboardArrowDown style={{ width: '0.6em', height: '0.6em', color: '#666666' }} />
   );
 };
+
+const parser = new Parser();
 
 class Editor extends React.Component {
 
@@ -62,23 +65,30 @@ class Editor extends React.Component {
 
     if (Object.hasOwn(modes, mode)) {
       delete modes[mode];
+      this.handleMode('add', mode);
     } else {
       modes[mode] = null;
+      this.handleMode('del', mode);
     }
     
     this.setState({ modes: modes });
   }
 
+  handleMode(action, mode) {
+    const innerText = this.editableRef.current.innerText;
+    const selection = window.getSelection();
+    if (!selection.isCollapsed) {
+      const obj = new Modes({ text: parser.text, selection: selection, action: action });
+      parser.update(obj[mode]());
+      this.html = parser.parse();
+    }
+  }
+
   handleEdit(event) {
     const innerText = this.editableRef.current.innerText;
-    if (this.text !== innerText) {
-      const diff = new Diff();
-      const diffs = diff.main(this.text, innerText);
-      const parser = new Parser(diffs);
+    if (innerText !== parser.text) {
+      parser.update(innerText);
       this.html = parser.parse();
-
-      // Set text to be new innerText
-      this.text = innerText;
     }
   }
 

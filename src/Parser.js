@@ -1,32 +1,24 @@
 class Parser {
-  constructor(diffs) {
-    this.diffs = diffs;
+  constructor() {
+    this.text = '';
     this.lines = [];
+  }
+  update(text) {
+    this.text = text;
   }
   parse() {
     this.lines = [];
+    var parts = this.text.split('\n');
     var line = '';
-    this.diffs.forEach((token, i) => {
-      if (token[0] !== -1) {
-        if (token[1].includes('\n')) {
-          var parts = token[1].split('\n');
-          parts.forEach((part, j) => {
-            if (j === parts.length - 1) {
-              line += part;
-            } else {
-              line += part;
-              this.lines.push(line);
-              line = '';
-            }
-          });
-        } else {
-          line += token[1];
+    parts.forEach((part, i) => {
+      if (i === parts.length - 1) {
+        if (part.trim() !==  '' && !part.includes('\n')) {
+          this.lines.push(part);
         }
-        if (i === this.diffs.length - 1) {
-          if (line.trim() !==  '' && !line.includes('\n')) {
-              this.lines.push(line);
-          }
-        }
+      } else {
+        line += part;
+        this.lines.push(line);
+        line = '';
       }
     });
     return this.lines.map((line) => `<p>${line}</p>`).join('\n');
