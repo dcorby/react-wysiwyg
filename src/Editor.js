@@ -7,7 +7,8 @@ import Editable from './Editable';
 import Preview from './Preview';
 import menuItems from './menuItems.json';
 import Select from '@mui/material/Select';
-import Diff from 'text-diff'; // https://www.npmjs.com/package/text-diff
+import Diff from 'text-diff';
+import Parser from './Parser';
 import './styles/Global.css';
 import './styles/Editor.css';
 
@@ -72,33 +73,9 @@ class Editor extends React.Component {
     const innerText = this.editableRef.current.innerText;
     if (this.text !== innerText) {
       const diff = new Diff();
-      const textDiff = diff.main(this.text, innerText);
-      
-      // TODO: Need a differ module. We don't want this block here.
-      var html = [];
-      var line = '';
-      textDiff.forEach((token, i) => {
-        if (token[0] !== -1) {
-          if (token[1].includes('\n')) {
-            var parts = token[1].split('\n');
-            parts.forEach((part, j) => {
-              if (j === parts.length - 1) {
-                line += part;
-              } else {
-                line += part;
-                html.push(line);
-                line = '';
-              }
-            });
-          } else {
-            line += token[1];
-          }
-          if (i === textDiff.length - 1) {
-            html.push(line);
-          }
-        }
-      });
-      this.html = html.map((line) => `<p>${line}</p>`).join('\n');
+      const diffs = diff.main(this.text, innerText);
+      const parser = new Parser(diffs);
+      this.html = parser.parse();
 
       // Set text to be new innerText
       this.text = innerText;
