@@ -1,7 +1,8 @@
 class Modes {
-  constructor({ text, selection, action }) {
+  constructor({ text, offset, tokenized, action }) {
     this.text = text;
-    this.selection = selection;
+    this.offset = offset;
+    this.tokenized = tokenized;
     this.action = action;
   }
 
@@ -9,40 +10,97 @@ class Modes {
      get the offset with indexOf()
   */
   bold() {
-    const token = '!@#$%^&*(';
-    let anchorNode = this.selection.anchorNode;
 
-    let node = anchorNode;
-    const before = [];
-    while (node.previousSibling != null) {
-      node = node.previousSibling;
-      before.unshift(node.textContent);
+    const token = '!@#$%^&*';
+    const start = this.tokenized.indexOf(token);
+    const end = this.tokenized.indexOf(token) + Math.abs(this.offset[0] - this.offset[1]) - 1;
+
+    const chars = this.text.split('');
+
+    // Get all the tags
+    const tags = {};
+    let tagIndex = -1;
+    for (const [i, char] of chars.entries()) {
+      if (char === '<') {
+        tagIndex = i;
+        tags[tagIndex] = '';
+      }
+      if (tagIndex > -1) {
+        tags[tagIndex] += char;
+      }
+      if (char === '>') {
+        tagIndex = -1;
+      }
     }
 
-    const selected = 
-    (anchorNode.textContent.substring(0, Math.min(this.selection.anchorOffset, this.selection.focusOffset))
-    + token
-    + anchorNode.textContent.substring(
-        Math.min(this.selection.anchorOffset, this.selection.focusOffset), 
-        Math.max(this.selection.anchorOffset, this.selection.focusOffset) + anchorNode.textContent.length
-      )
-    );
-
-    node = anchorNode;
-    const after = [];
-    while (node.nextSibling != null) {
-      node = node.nextSibling;
-      after.push(node.textContent);
+    // Get isBold for each char, where tags are -1
+    const bold = [];
+    let isBold = false;
+    tagIndex = -1;
+    for (const [i, char] of chars.entries()) {
+      if (i in tags) {
+        tagIndex = i;
+      }
+      if (tagIndex > -1 && i >= tagIndex + tags[tagIndex].length) {
+        tagIndex = -1;
+      }
+      if (chars.slice(i-3, i).join('') === '<b>') {
+        isBold = true;
+      }
+      if (chars.slice(i-4, i).join('') === '</b>') {
+        isBold = false;
+      }
+      if (tagIndex > -1) {
+        bold.push(-1);
+      } else {
+        if (isBold) {
+          bold.push(1);
+        } else {
+          bold.push(0);
+        }
+      }
     }
 
-    const newText = before.join('') + selected + after.join('');
-    var start = newText.indexOf(token);
-    var end = newText.indexOf(token) + Math.abs(this.selection.anchorOffset - this.selection.focusOffset);
+    // Flip isBold for the range
+    for (const [i, char] of chars.entries()) {
+      if (i >= start && i <= end) {
+        if (bold[i] !== -1) {
+          if (bold[i] == 0) {
+            bold[i] = 1;
+          } else {
+            bold[i] = 0;
+          }
+        }
+      }
+    }
 
-    console.log("selected:");
-    console.log(this.text.substring(start, end));
-    console.log(`start=${start}, end=${end}`);
+    // Rebuild text from chars, remove existing b tags, and insert new ones as isBold flips
+    let text = '';
+    let skip = false;
+    let prevBold = false;
+    for (const [i, char] of chars.entries()) {
+      if (char === '<' && chars[i+1] === 'b') {
+        skip = true;
+      }
+      if (char === '<' && chars[i+2] === 'b') {
+        skip = true;
+      }
+      if (!skip) {
+        if (bold[i] && !prevBold) {
+          text += '<b>';
+        }
+        if (!bold[i] && prevBold) {
+          text += '</b>';
+        }
+        text += char;
+        prevBold = bold[i];
+      }
+      if (skip && char === '>') {
+        skip = false;
+      }
+    }
 
+    this.text = text;
     return this.text;
   }
 }

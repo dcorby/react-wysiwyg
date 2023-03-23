@@ -77,9 +77,28 @@ class Editor extends React.Component {
 
   handleMode(action, mode) {
     const selection = window.getSelection();
+    const token = '!@#$%^&*';
     if (!selection.isCollapsed) {
+      const offset = [selection.anchorOffset, selection.focusOffset];
       parser.update(this.editableRef.current.innerHTML);
-      const obj = new Modes({ text: parser.text, selection: selection, action: action });
+      const replace = 
+      (selection.anchorNode.textContent.substring(0, Math.min(offset[0], offset[1]))
+      + token
+      + selection.anchorNode.textContent.substring(
+          Math.min(offset[0], offset[1]), 
+          Math.max(offset[0], offset[1]) + selection.anchorNode.textContent.length
+        )
+      );
+      const original = selection.anchorNode.textContent;
+      selection.anchorNode.textContent = replace;
+
+      // oof...https://stackoverflow.com/questions/5796718/html-entity-decode
+      var tmp = document.createElement("textarea");
+      tmp.innerHTML = this.editableRef.current.innerHTML;
+      const tokenized = tmp.value;
+      selection.anchorNode.textContent = original;
+
+      const obj = new Modes({ text: parser.text, offset: offset, tokenized: tokenized, action: action });
       const text = obj[mode]();
       this.editableRef.current.innerHTML = text;
       parser.update(text);
@@ -89,9 +108,9 @@ class Editor extends React.Component {
   }
 
   handleEdit(event) {
-    const innerText = this.editableRef.current.innerHTML;
-    if (innerText !== parser.text) {
-      parser.update(innerText);
+    const text = this.editableRef.current.innerHTML;
+    if (text !== parser.text) {
+      parser.update(text);
       this.html = parser.parse();
     }
   }
