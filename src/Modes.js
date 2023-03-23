@@ -1,20 +1,40 @@
 class Modes {
-  constructor({ text, offset, tokenized, action }) {
+  constructor({ text, editable, selection, action }) {
     this.text = text;
-    this.offset = offset;
-    this.tokenized = tokenized;
+    this.editable = editable;
+    this.selection = selection;
     this.action = action;
   }
 
   /* The selection API is really weird. For now, just fingerprint the selection with a unique token and 
      get the offset with indexOf()
   */
-  bold() {
-
+  update(tag) {
     const token = '!@#$%^&*';
-    const start = this.tokenized.indexOf(token);
-    const end = this.tokenized.indexOf(token) + Math.abs(this.offset[0] - this.offset[1]) - 1;
+    const offset = [this.selection.anchorOffset, this.selection.focusOffset];
+    const anchorNode = this.selection.anchorNode;
+    const replace = 
+      (anchorNode.textContent.substring(0, Math.min(offset[0], offset[1]))
+      + token
+      + anchorNode.textContent.substring(
+          Math.min(offset[0], offset[1]), 
+          Math.max(offset[0], offset[1]) + anchorNode.textContent.length
+        )
+      );
+    const original = anchorNode.textContent;
+    anchorNode.textContent = replace;
 
+    // Get decoded HTML (oof!) https://stackoverflow.com/questions/5796718/html-entity-decode
+    const tmp = document.createElement('textarea');
+    tmp.innerHTML = this.editable.current.innerHTML;
+    const tokenized = tmp.value;
+    anchorNode.textContent = original;
+
+    // Get start and end bounds
+    const start = tokenized.indexOf(token);
+    const end = tokenized.indexOf(token) + Math.abs(offset[0] - offset[1]) - 1;
+
+    // Get a char array from the current text
     const chars = this.text.split('');
 
     // Get all the tags
@@ -33,9 +53,9 @@ class Modes {
       }
     }
 
-    // Get isBold for each char, where tags are -1
-    const bold = [];
-    let isBold = false;
+    // Get isActive for each char, where tags are -1
+    const active = [];
+    let isActive = false;
     tagIndex = -1;
     for (const [i, char] of chars.entries()) {
       if (i in tags) {
@@ -44,56 +64,56 @@ class Modes {
       if (tagIndex > -1 && i >= tagIndex + tags[tagIndex].length) {
         tagIndex = -1;
       }
-      if (chars.slice(i-3, i).join('') === '<b>') {
-        isBold = true;
+      if (chars.slice(i-3, i).join('') === `<${tag}>`) {
+        isActive = true;
       }
-      if (chars.slice(i-4, i).join('') === '</b>') {
-        isBold = false;
+      if (chars.slice(i-4, i).join('') === `</${tag}>`) {
+        isActive = false;
       }
       if (tagIndex > -1) {
-        bold.push(-1);
+        active.push(-1);
       } else {
-        if (isBold) {
-          bold.push(1);
+        if (isActive) {
+          active.push(1);
         } else {
-          bold.push(0);
+          active.push(0);
         }
       }
     }
 
-    // Flip isBold for the range
+    // Flip isActive for the range
     for (const [i, char] of chars.entries()) {
       if (i >= start && i <= end) {
-        if (bold[i] !== -1) {
-          if (bold[i] == 0) {
-            bold[i] = 1;
+        if (active[i] !== -1) {
+          if (active[i] == 0) {
+            active[i] = 1;
           } else {
-            bold[i] = 0;
+            active[i] = 0;
           }
         }
       }
     }
 
-    // Rebuild text from chars, remove existing b tags, and insert new ones as isBold flips
+    // Rebuild text from chars, remove existing mode tags, and insert new ones as isActive flips
     let text = '';
     let skip = false;
-    let prevBold = false;
+    let prevActive = false;
     for (const [i, char] of chars.entries()) {
-      if (char === '<' && chars[i+1] === 'b') {
+      if (char === '<' && chars[i+1] === tag) {
         skip = true;
       }
-      if (char === '<' && chars[i+2] === 'b') {
+      if (char === '<' && chars[i+2] === tag) {
         skip = true;
       }
       if (!skip) {
-        if (bold[i] && !prevBold) {
-          text += '<b>';
+        if (active[i] && !prevActive) {
+          text += `<${tag}>`;
         }
-        if (!bold[i] && prevBold) {
-          text += '</b>';
+        if (!active[i] && prevActive) {
+          text += `</${tag}>`;
         }
         text += char;
-        prevBold = bold[i];
+        prevActive = active[i];
       }
       if (skip && char === '>') {
         skip = false;

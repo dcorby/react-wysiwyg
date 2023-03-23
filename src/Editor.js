@@ -76,30 +76,15 @@ class Editor extends React.Component {
   }
 
   handleMode(action, mode) {
+    if (!['bold', 'italic', 'underline'].includes(mode)) {
+      return;
+    }
+    const tag = mode.charAt(0);
     const selection = window.getSelection();
-    const token = '!@#$%^&*';
     if (!selection.isCollapsed) {
-      const offset = [selection.anchorOffset, selection.focusOffset];
       parser.update(this.editableRef.current.innerHTML);
-      const replace = 
-      (selection.anchorNode.textContent.substring(0, Math.min(offset[0], offset[1]))
-      + token
-      + selection.anchorNode.textContent.substring(
-          Math.min(offset[0], offset[1]), 
-          Math.max(offset[0], offset[1]) + selection.anchorNode.textContent.length
-        )
-      );
-      const original = selection.anchorNode.textContent;
-      selection.anchorNode.textContent = replace;
-
-      // oof...https://stackoverflow.com/questions/5796718/html-entity-decode
-      var tmp = document.createElement("textarea");
-      tmp.innerHTML = this.editableRef.current.innerHTML;
-      const tokenized = tmp.value;
-      selection.anchorNode.textContent = original;
-
-      const obj = new Modes({ text: parser.text, offset: offset, tokenized: tokenized, action: action });
-      const text = obj[mode]();
+      const obj = new Modes({ text: parser.text, editable: this.editableRef, selection: selection, action: action });
+      const text = obj.update(tag);
       this.editableRef.current.innerHTML = text;
       parser.update(text);
       this.html = parser.parse();
