@@ -4,6 +4,10 @@ class Modes {
     this.editable = editable;
     this.selection = selection;
     this.action = action;
+
+    this.offset = [-1, -1];
+    this.start = -1;
+    this.end = -1;
   }
 
   /* The selection API is really weird. For now, just fingerprint the selection with a unique token and 
@@ -11,14 +15,14 @@ class Modes {
   */
   update(tag) {
     const token = '!@#$%^&*';
-    const offset = [this.selection.anchorOffset, this.selection.focusOffset];
+    this.offset = [this.selection.anchorOffset, this.selection.focusOffset];
     const anchorNode = this.selection.anchorNode;
     const replace = 
-      (anchorNode.textContent.substring(0, Math.min(offset[0], offset[1]))
+      (anchorNode.textContent.substring(0, Math.min(this.offset[0], this.offset[1]))
       + token
       + anchorNode.textContent.substring(
-          Math.min(offset[0], offset[1]), 
-          Math.max(offset[0], offset[1]) + anchorNode.textContent.length
+          Math.min(this.offset[0], this.offset[1]), 
+          Math.max(this.offset[0], this.offset[1]) + anchorNode.textContent.length
         )
       );
     const original = anchorNode.textContent;
@@ -30,9 +34,20 @@ class Modes {
     const tokenized = tmp.value;
     anchorNode.textContent = original;
 
+    // Create the marker
+    const marker = "<span id='marker'></span>";
+    //const marker = '';
+
     // Get start and end bounds
-    const start = tokenized.indexOf(token);
-    const end = tokenized.indexOf(token) + Math.abs(offset[0] - offset[1]) - 1;
+    this.start = tokenized.indexOf(token);
+    this.end = tokenized.indexOf(token) + Math.abs(this.offset[0] - this.offset[1]) - 1;
+
+    // Insert the marker
+    this.text = this.text.substring(0, this.start) + marker + this.text.substring(this.start);
+
+    // Shift start and end by length of marker
+    this.start += marker.length;
+    this.end += marker.length;
 
     // Get a char array from the current text
     const chars = this.text.split('');
@@ -83,7 +98,7 @@ class Modes {
 
     // Flip isActive for the range
     for (const [i, char] of chars.entries()) {
-      if (i >= start && i <= end) {
+      if (i >= this.start && i <= this.end) {
         if (active[i] !== -1) {
           if (active[i] == 0) {
             active[i] = 1;
@@ -121,7 +136,6 @@ class Modes {
     }
 
     this.text = text;
-    return this.text;
   }
 }
 

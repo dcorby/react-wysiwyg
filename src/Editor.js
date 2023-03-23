@@ -82,11 +82,23 @@ class Editor extends React.Component {
     const tag = mode.charAt(0);
     const selection = window.getSelection();
     if (!selection.isCollapsed) {
+      
       parser.update(this.editableRef.current.innerHTML);
       const obj = new Modes({ text: parser.text, editable: this.editableRef, selection: selection, action: action });
-      const text = obj.update(tag);
-      this.editableRef.current.innerHTML = text;
-      parser.update(text);
+      obj.update(tag);
+      this.editableRef.current.innerHTML = obj.text;
+      parser.update(obj.text);
+
+      // Use the marker to keep the selection
+      const marker = this.editableRef.current.querySelector('#marker');
+      const sibling = marker.nextSibling;
+      selection.removeAllRanges();
+      let range = new Range();
+      range.setStart(sibling, 0);
+      range.setEnd(sibling, Math.abs(obj.start - obj.end) + 1);
+      selection.addRange(range);
+      marker.remove();
+
       this.html = parser.parse();
       this.setState({ update: !this.state.update });
     }
