@@ -91,7 +91,15 @@ class Editor extends React.Component {
 
       // Use the marker to keep the selection
       const marker = this.editableRef.current.querySelector('#marker');
-      const sibling = marker.nextSibling;
+      let sibling = marker.nextSibling;
+      if (sibling.nodeType === 1) {
+        const iter = document.createNodeIterator(sibling, NodeFilter.SHOW_TEXT);
+        sibling = iter.nextNode();
+      } else {
+        if (sibling.nodeType !== 3) {
+          throw new Error('Invalid node type');
+        }
+      }
       selection.removeAllRanges();
       let range = new Range();
       range.setStart(sibling, 0);
@@ -99,6 +107,8 @@ class Editor extends React.Component {
       selection.addRange(range);
       marker.remove();
 
+      // Update the parser and trigger a state change
+      parser.update(this.editableRef.current.innerHTML);
       this.html = parser.parse();
       this.setState({ update: !this.state.update });
     }

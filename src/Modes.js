@@ -99,7 +99,7 @@ class Modes {
     // Flip isActive for the range
     for (const [i, char] of chars.entries()) {
       if (i >= this.start && i <= this.end) {
-        if (active[i] !== -1) {
+        if (active[i] > -1) {
           if (active[i] == 0) {
             active[i] = 1;
           } else {
@@ -117,20 +117,17 @@ class Modes {
       if (char === '<' && chars[i+1] === tag) {
         skip = true;
       }
-      if (char === '<' && chars[i+2] === tag) {
-        skip = true;
-      }
       if (!skip) {
-        if (active[i] && !prevActive) {
+        if (active[i] === 1 && prevActive !== 1) {
           text += `<${tag}>`;
         }
-        if (!active[i] && prevActive) {
+        if (active[i] !== 1 && prevActive === 1) {
           text += `</${tag}>`;
         }
         text += char;
         prevActive = active[i];
       }
-      if (skip && char === '>') {
+      if (skip && char === '>' && chars[i-1] === tag && chars[i-2] === '/') {
         skip = false;
       }
     }
